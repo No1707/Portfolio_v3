@@ -1,0 +1,350 @@
+@import "tailwindcss";
+
+/* next-themes drives the `dark` class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------
+   Design tokens — "Ink & Ember"
+   Light is the fallback; .dark is the designed default.
+   --------------------------------------------------------------- */
+:root {
+  /* surfaces */
+  --bg: #fbfaf8;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-hover: #f4f2ee;
+
+  /* text */
+  --text: #16161a;
+  --text-muted: #55555e;
+  /* `faint` carries real 11px labels, so it still has to clear 4.5:1 */
+  --text-faint: #66666e;
+
+  /* lines */
+  --line: rgb(0 0 0 / 0.1);
+  --line-strong: rgb(0 0 0 / 0.18);
+
+  /* accent */
+  --accent: #b45309;
+  --accent-hover: #92400e;
+  --accent-contrast: #ffffff;
+  --accent-soft: rgb(180 83 9 / 0.1);
+  --accent-glow: rgb(180 83 9 / 0.16);
+
+  /* grid backdrop */
+  --grid-line: rgb(0 0 0 / 0.045);
+  --grid-line-lit: rgb(180 83 9 / 0.5);
+
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0a0a0b;
+  --bg-elevated: #131316;
+  --surface: #131316;
+  --surface-hover: #1a1a1f;
+
+  --text: #ededf0;
+  --text-muted: #a2a2aa;
+  --text-faint: #8c8c96;
+
+  --line: rgb(255 255 255 / 0.09);
+  --line-strong: rgb(255 255 255 / 0.18);
+
+  --accent: #fbbf24;
+  --accent-hover: #fcd34d;
+  --accent-contrast: #1a1206;
+  --accent-soft: rgb(251 191 36 / 0.12);
+  --accent-glow: rgb(251 191 36 / 0.22);
+
+  --grid-line: rgb(255 255 255 / 0.04);
+  --grid-line-lit: rgb(251 191 36 / 0.55);
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-accent-soft: var(--accent-soft);
+
+  --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-var), ui-monospace, SFMono-Regular, monospace;
+
+  /* fluid display scale */
+  --text-display: clamp(2.75rem, 1.2rem + 6.4vw, 6rem);
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.035em;
+
+  --text-h2: clamp(1.75rem, 1.15rem + 2.4vw, 2.75rem);
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.025em;
+
+  --text-h3: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.012em;
+
+  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-lead--line-height: 1.65;
+
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1;
+  --text-label--letter-spacing: 0.14em;
+}
+
+/* ---------------------------------------------------------------
+   Base
+   --------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  /* Clears the 4rem fixed header, plus a little breathing room. This is the
+     only anchor offset — sections must not also carry scroll-margin, or the
+     two stack and the jump lands short. */
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Tabular figures for anything date/number-ish */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------- */
+
+/* Mono micro-label used for section indexes and eyebrows */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Blueprint grid, faded out towards the edges */
+@utility grid-backdrop {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+}
+
+/* ---------------------------------------------------------------
+   Hero effect 1 — the grid bends around the cursor.
+   Geometry lives in <GridWell>; this only handles the fade in/out and
+   the same top-down falloff the static grid uses, so the well never
+   shows in the region where the grid itself has faded away.
+   --------------------------------------------------------------- */
+.grid-well {
+  opacity: 0;
+  transition: opacity 0.45s ease-out;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+}
+
+.grid-well[data-lit="true"] {
+  opacity: 1;
+}
+
+/* Coarse pointers have no cursor to follow. */
+@media (hover: none), (pointer: coarse) {
+  .grid-well {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Hero effect 5 — scanline reveal, once on load.
+   The line is a full-height layer translated top to bottom, so the
+   sweep costs one transform and never touches layout.
+   --------------------------------------------------------------- */
+@keyframes scan-sweep {
+  from {
+    transform: translate3d(0, -4%, 0);
+  }
+  to {
+    transform: translate3d(0, 104%, 0);
+  }
+}
+
+@keyframes scan-fade {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes grid-flash {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.scan {
+  animation: scan-sweep 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.scan > * {
+  animation: scan-fade 900ms linear forwards;
+}
+
+.scan-flash {
+  animation: grid-flash 900ms cubic-bezier(0.3, 0, 0.2, 1) forwards;
+}
+
+/* ---------------------------------------------------------------
+   Scroll reveal — CSS transitions driven by <Reveal>.
+   Transform + opacity only, so it never triggers layout.
+   --------------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* The no-JS fallback lives in a <noscript> block in the root layout. */
+
+/* Marquee track */
+@keyframes marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation-name: marquee-left;
+  animation-duration: var(--marquee-duration, 60s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.marquee-track[data-direction="right"] {
+  animation-name: marquee-right;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Technology pill — neutral at rest, brand colour on hover */
+.tech-pill {
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.tech-pill:hover {
+  color: var(--brand, var(--accent));
+  border-color: color-mix(in oklab, var(--brand, var(--accent)) 45%, transparent);
+  background-color: color-mix(in oklab, var(--brand, var(--accent)) 8%, transparent);
+}
+
+/* ---------------------------------------------------------------
+   Reduced motion — honour the OS setting everywhere
+   --------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* The looping copy is redundant once the track stops moving */
+  .marquee-clone {
+    display: none;
+  }
+
+  /* No sweep at all — the hero is simply there */
+  .scan,
+  .scan-flash {
+    display: none;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
