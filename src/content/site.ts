@@ -273,8 +273,8 @@ export const projects: Project[] = [
     title: "MacroNutrients",
     summary: { en: "Web app", fr: "Application web" },
     description: {
-      en: "A calculator that works out daily macronutrient needs from a few personal inputs.",
-      fr: "Un calculateur qui détermine les besoins quotidiens en macronutriments à partir de quelques données personnelles.",
+      en: "A calculator that works out daily macronutrient needs from a few personal inputs. Desktop only.",
+      fr: "Un calculateur qui détermine les besoins quotidiens en macronutriments à partir de quelques données personnelles. Non responsive.",
     },
     year: "2022",
     tech: ["angular", "typescript", "html", "css"],
