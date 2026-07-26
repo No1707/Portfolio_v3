@@ -267,7 +267,7 @@ export const projects: Project[] = [
     },
     year: "2022",
     tech: ["vue", "tailwind", "javascript"],
-    links: { live: "https://crypto-dashboard-nine-xi.vercel.app/" },
+    links: { live: "https://crypto-dashboard-two-lovat.vercel.app/" },
   },
   {
     title: "MacroNutrients",
