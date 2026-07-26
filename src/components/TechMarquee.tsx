@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { t, type Locale } from "@/lib/i18n";
+import { useMarqueeDrag } from "@/lib/use-marquee-drag";
 import { ui } from "@/content/ui";
 import { techGroups, type TechKey } from "@/content/site";
 import { techRegistry } from "./tech-registry";
@@ -11,6 +12,15 @@ import { Reveal } from "./Reveal";
 /** Fade the row out at both edges instead of cutting it off. */
 const EDGE_FADE =
   "linear-gradient(to right, transparent, #000 5%, #000 95%, transparent)";
+
+/**
+ * Copies of the list laid into the track. The animation travels half of
+ * them, so that half has to be at least as wide as the container or the
+ * loop shows an empty stretch at its midpoint. The container is capped at
+ * 880px by the section's `max-w-6xl`, and two passes of even the shortest
+ * row clear that comfortably.
+ */
+const PASSES = 4;
 
 function TechPill({ techKey, clone }: { techKey: TechKey; clone?: boolean }) {
   const { name, Icon, hex } = techRegistry[techKey];
@@ -29,46 +39,65 @@ function TechPill({ techKey, clone }: { techKey: TechKey; clone?: boolean }) {
   );
 }
 
+function TechRow({
+  group,
+  index,
+  locale,
+}: {
+  group: (typeof techGroups)[number];
+  index: number;
+  locale: Locale;
+}) {
+  // Longer rows travel proportionally longer, so every row moves at
+  // roughly the same perceived speed. One loop covers PASSES / 2 copies,
+  // so the time has to scale with that too.
+  const duration = Math.max(28, group.items.length * 6) * (PASSES / 2);
+  // Scrubs the animation below rather than transforming the track itself,
+  // so a row that has been dragged keeps looping from where it was left.
+  const boxRef = useMarqueeDrag<HTMLDivElement>();
+
+  return (
+    <div className="grid gap-3 md:grid-cols-[11rem_1fr] md:items-center md:gap-8">
+      <h3 className="label text-faint">{t(group.label, locale)}</h3>
+
+      <div
+        ref={boxRef}
+        className="marquee relative overflow-hidden py-1"
+        style={{ maskImage: EDGE_FADE, WebkitMaskImage: EDGE_FADE }}
+      >
+        <ul
+          className="marquee-track gap-3"
+          data-direction={index % 2 === 0 ? "left" : "right"}
+          style={{ "--marquee-duration": `${duration}s` } as CSSProperties}
+        >
+          {/* Only the first pass is real; the rest exist to make the loop
+              seamless and are hidden from assistive tech. */}
+          {Array.from({ length: PASSES }, (_, pass) =>
+            group.items.map((key) => (
+              <li
+                key={`${pass}-${key}`}
+                className={pass === 0 ? "flex" : "marquee-clone flex"}
+                aria-hidden={pass === 0 ? undefined : true}
+              >
+                <TechPill techKey={key} clone={pass > 0} />
+              </li>
+            )),
+          )}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 export function TechMarquee({ locale }: { locale: Locale }) {
   return (
     <Section id="stack" index="04" title={t(ui.sections.stack, locale)}>
       <div className="space-y-6">
-        {techGroups.map((group, index) => {
-          // Longer rows travel proportionally longer, so every row moves at
-          // roughly the same perceived speed.
-          const duration = Math.max(28, group.items.length * 6);
-
-          return (
-            <Reveal key={index} delay={index * 80}>
-              <div className="grid gap-3 md:grid-cols-[11rem_1fr] md:items-center md:gap-8">
-                <h3 className="label text-faint">{t(group.label, locale)}</h3>
-
-                <div
-                  className="marquee relative overflow-hidden py-1"
-                  style={{ maskImage: EDGE_FADE, WebkitMaskImage: EDGE_FADE }}
-                >
-                  <ul
-                    className="marquee-track gap-3"
-                    data-direction={index % 2 === 0 ? "left" : "right"}
-                    style={{ "--marquee-duration": `${duration}s` } as CSSProperties}
-                  >
-                    {group.items.map((key) => (
-                      <li key={key} className="flex">
-                        <TechPill techKey={key} />
-                      </li>
-                    ))}
-                    {/* Second pass makes the loop seamless; hidden from AT. */}
-                    {group.items.map((key) => (
-                      <li key={`clone-${key}`} className="marquee-clone flex" aria-hidden>
-                        <TechPill techKey={key} clone />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </Reveal>
-          );
-        })}
+        {techGroups.map((group, index) => (
+          <Reveal key={index} delay={index * 80}>
+            <TechRow group={group} index={index} locale={locale} />
+          </Reveal>
+        ))}
       </div>
     </Section>
   );

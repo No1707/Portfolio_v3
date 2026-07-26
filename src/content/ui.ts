@@ -31,7 +31,7 @@ export const ui = {
 
   contact: {
     headline: { en: "Let's build something", fr: "Construisons quelque chose" },
-    cta: { en: "Let's talk", fr: "Discutons" },
+    cta: { en: "Write to me", fr: "Discutons" },
     subject: { en: "Hello Nolan", fr: "Bonjour Nolan" },
   },
 

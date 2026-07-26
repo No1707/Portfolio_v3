@@ -103,12 +103,12 @@ export const about = {
       fr: "Je suis un développeur web front-end français avec sept ans d'expérience, dont quatre à construire et faire vivre des interfaces en production au sein de la même entreprise.",
     },
     {
-      en: "Staying somewhere that long taught me things a series of short projects never could: how a codebase ages, why a component written in a hurry costs you six months later, and how much a team gains from conventions everyone actually agrees on.",
-      fr: "Rester aussi longtemps au même endroit m'a appris ce qu'une série de projets courts n'enseigne pas : comment une base de code vieillit, pourquoi un composant écrit dans l'urgence se paie six mois plus tard, et tout ce qu'une équipe gagne à se mettre d'accord sur des conventions.",
+      en: "Staying somewhere that long taught me things a series of short projects never could: the weight of the details that separate a good product from an exceptional one, how code written in a hurry costs you six months later, and how much a team gains from clear communication.",
+      fr: "Rester aussi longtemps au même endroit m'a appris ce qu'une série de projets courts n'enseigne pas : l'importance des détails qui séparent un bon produit d'un produit exceptionnel, comment du code écrit dans l'urgence se paie six mois plus tard, et tout ce qu'une équipe gagne avec une communication claire.",
     },
     {
-      en: "What interests me is code that holds up over time: reusable components, strict typing, performance that's measured rather than assumed, and a codebase a colleague can pick up without a manual.",
-      fr: "Ce qui m'intéresse, c'est le code qui tient dans le temps : des composants réutilisables, un typage strict, des performances mesurées plutôt que supposées, et une base de code qu'un collègue peut reprendre sans mode d'emploi.",
+      en: "I'm interested in modern, reliable, pixel-perfect user interfaces. Reusable code that holds up over time. And also MMORPGs, tennis and motorcycles.",
+      fr: "Je m'intéresse aux interfaces utilisateur modernes, fiables, pixel-perfect. Au code réutilisable et qui tient dans le temps. Et aussi aux MMORPG, au tennis et à la moto.",
     },
   ] satisfies I18nString[],
   stats: [
@@ -125,6 +125,21 @@ export const about = {
 
 /* ---------------------------------------------------------- Experience */
 
+/**
+ * Turns a run of text inside a description into a pointer at another
+ * entry: activating it washes that entry in amber. Kept in the content
+ * rather than wired to a row index, so the link survives any reordering
+ * of the list.
+ */
+export interface EntryPointer {
+  /** `organisation` of the entry being pointed at. */
+  target: string;
+  /** The exact phrase to mark up. Must appear in the description. */
+  phrase: I18nString;
+  /** Spoken label — the line and the highlight are purely visual. */
+  label: I18nString;
+}
+
 export interface ExperienceEntry {
   period: I18nString;
   role: I18nString;
@@ -133,6 +148,7 @@ export interface ExperienceEntry {
   kind: I18nString;
   description: I18nString;
   tech: TechKey[];
+  pointsTo?: EntryPointer;
 }
 
 export const experience: ExperienceEntry[] = [
@@ -142,8 +158,8 @@ export const experience: ExperienceEntry[] = [
     organisation: "Codoc",
     kind: { en: "Full-time", fr: "CDI" },
     description: {
-      en: "Within a product & tech team, I spent four years working on a medical application used by doctors and researchers from around twenty partner health institutions. The goal: analysing data to help diagnose rare diseases. I built new features, improved and maintained the codebase, and took part in modernising the application — notably by leading the migration from Vue.js 2 to Vue.js 3 and the evolution of the design system. I also contributed to technical decisions, to improving development practices, and to mentoring interns.",
-      fr: "Au sein d'une équipe produit & tech, j'ai participé pendant quatre ans au développement d'une application médicale utilisée par des médecins et des chercheurs issus d'une vingtaine d'établissements de santé partenaires. L'objectif : analyser des données afin de contribuer au diagnostic de maladies rares. J'ai développé de nouvelles fonctionnalités, amélioré et maintenu le code, et participé à la modernisation de l'application — notamment en menant la migration de Vue.js 2 vers Vue.js 3 et l'évolution du design system. J'ai également contribué aux choix techniques, à l'amélioration des pratiques de développement et à l'encadrement de stagiaires.",
+      en: "Within a product & tech team, I spent four years working on a medical application used by doctors and researchers from around twenty partner health institutions. The goal: the analysis of patient data to help diagnose rare diseases. I built new features, improved and maintained the codebase, and took part in modernising the application — notably by leading the migration from Vue.js 2 to Vue.js 3 and the evolution of the design system. I also contributed to technical decisions, to improving development practices, and to mentoring interns.",
+      fr: "Au sein d'une équipe produit & tech, j'ai participé pendant quatre ans au développement d'une application médicale utilisée par des médecins et des chercheurs issus d'une vingtaine d'établissements de santé partenaires. L'objectif : l'analyse de données patients afin de contribuer au diagnostic de maladies rares. J'ai développé de nouvelles fonctionnalités, amélioré et maintenu le code, et participé à la modernisation de l'application — notamment en menant la migration de Vue.js 2 vers Vue.js 3 et l'évolution du design system. J'ai également contribué aux choix techniques, à l'amélioration des pratiques de développement et à l'encadrement de stagiaires.",
     },
     tech: [
       "vue",
@@ -165,7 +181,7 @@ export const experience: ExperienceEntry[] = [
     kind: { en: "Work-study", fr: "Alternance" },
     description: {
       en: "A year inside an e-learning company. I started by building their remote-course interfaces, then went on to improve their WordPress site and to create and maintain their Shopify store.",
-      fr: "Une année au sein d'une entreprise d'e-learning. J'ai commencé par intégrer leurs interfaces de cours à distance, pour ensuite améliorer leur site WordPress et créer puis maintenir leur site e-commerce Shopify.",
+      fr: "Une année au sein d'une entreprise d'e-learning. J'ai commencé par intégrer leurs interfaces de cours à distance, pour ensuite améliorer leur site WordPress puis créer et maintenir leur site e-commerce Shopify.",
     },
     tech: ["html", "css", "javascript", "sass", "git", "wordpress", "shopify"],
   },
@@ -179,6 +195,14 @@ export const experience: ExperienceEntry[] = [
       fr: "Trois années couvrant les fondamentaux du web, focus sur le front-end et la conduite de projet — la dernière année passée en alternance.",
     },
     tech: ["html", "css", "javascript", "threejs", "react", "git", "bootstrap"],
+    pointsTo: {
+      target: "Kawalearn",
+      phrase: { en: "in work-study", fr: "en alternance" },
+      label: {
+        en: "Highlight the work-study year at Kawalearn, above",
+        fr: "Mettre en évidence l'alternance chez Kawalearn, ci-dessus",
+      },
+    },
   },
 ];
 
@@ -186,7 +210,12 @@ export const experience: ExperienceEntry[] = [
 
 export interface Project {
   title: string;
-  /** One-line "what is it". */
+  /**
+   * Category, drawn from a deliberately closed vocabulary — currently
+   * just "Website" and "Web app". It has to repeat across projects to
+   * read as a taxonomy; a phrase unique to one project only restates
+   * the description below it.
+   */
   summary: I18nString;
   description: I18nString;
   year: string;
@@ -198,18 +227,18 @@ export interface Project {
 export const projects: Project[] = [
   {
     title: "TheVirtuose",
-    summary: { en: "Studio website", fr: "Site de studio" },
+    summary: { en: "Website", fr: "Site web" },
     description: {
       en: "A showcase site for a video editing studio.",
       fr: "Une vitrine pour un studio de montage vidéo.",
     },
     year: "2026",
     tech: ["nextjs", "typescript", "sanity", "motion", "styledcomponents", "vercel"],
-    links: {}, // TODO: live URL once deployed
+    links: { live: "https://the-virtuose-rho.vercel.app/en" },
   },
   {
     title: "FitForge",
-    summary: { en: "Training app", fr: "Application de training" },
+    summary: { en: "Web app", fr: "Application web" },
     description: {
       en: "A training app with AI-assisted workout program generation.",
       fr: "Une application de training avec génération de programmes de sport assistée par IA.",
@@ -220,7 +249,7 @@ export const projects: Project[] = [
   },
   {
     title: "Codoc",
-    summary: { en: "Company website", fr: "Site d'entreprise" },
+    summary: { en: "Website", fr: "Site web" },
     description: {
       en: "The company's public website.",
       fr: "Le site public de l'entreprise.",
@@ -231,7 +260,7 @@ export const projects: Project[] = [
   },
   {
     title: "Crypto Dashboard",
-    summary: { en: "Market dashboard", fr: "Dashboard de marché" },
+    summary: { en: "Web app", fr: "Application web" },
     description: {
       en: "A cryptocurrency dashboard tracking prices and market movement.",
       fr: "Un dashboard de cryptomonnaies suivant les cours et les mouvements du marché.",
@@ -242,7 +271,7 @@ export const projects: Project[] = [
   },
   {
     title: "MacroNutrients",
-    summary: { en: "Nutrition calculator", fr: "Calculateur nutritionnel" },
+    summary: { en: "Web app", fr: "Application web" },
     description: {
       en: "A calculator that works out daily macronutrient needs from a few personal inputs.",
       fr: "Un calculateur qui détermine les besoins quotidiens en macronutriments à partir de quelques données personnelles.",
@@ -253,7 +282,7 @@ export const projects: Project[] = [
   },
   {
     title: "Lab — The Strokes",
-    summary: { en: "School project", fr: "Projet d'école" },
+    summary: { en: "Website", fr: "Site web" },
     description: {
       en: "My final school project: a band tribute site written in plain HTML, CSS and JavaScript.",
       fr: "Mon dernier projet d'école : un site hommage à un groupe, écrit en HTML, CSS et JavaScript purs.",
@@ -282,7 +311,7 @@ export const techGroups: TechGroup[] = [
   },
   {
     label: { en: "Styling & UI", fr: "Styles & UI" },
-    items: ["tailwind", "sass", "bootstrap", "shadcn", "figma", "webflow"],
+    items: ["tailwind", "sass", "bootstrap", "shadcn", "vuetify", "styledcomponents", "figma"],
   },
   {
     label: { en: "Tooling & platforms", fr: "Outils & plateformes" },
@@ -299,6 +328,7 @@ export const techGroups: TechGroup[] = [
       "sanity",
       "firebase",
       "vercel",
+      "webflow",
     ],
   },
 ];

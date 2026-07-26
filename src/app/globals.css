@@ -163,30 +163,7 @@ body {
 }
 
 /* ---------------------------------------------------------------
-   Hero effect 1 — the grid bends around the cursor.
-   Geometry lives in <GridWell>; this only handles the fade in/out and
-   the same top-down falloff the static grid uses, so the well never
-   shows in the region where the grid itself has faded away.
-   --------------------------------------------------------------- */
-.grid-well {
-  opacity: 0;
-  transition: opacity 0.45s ease-out;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
-}
-
-.grid-well[data-lit="true"] {
-  opacity: 1;
-}
-
-/* Coarse pointers have no cursor to follow. */
-@media (hover: none), (pointer: coarse) {
-  .grid-well {
-    display: none;
-  }
-}
-
-/* ---------------------------------------------------------------
-   Hero effect 5 — scanline reveal, once on load.
+   Hero — scanline reveal, once on load.
    The line is a full-height layer translated top to bottom, so the
    sweep costs one transform and never touches layout.
    --------------------------------------------------------------- */
@@ -255,6 +232,38 @@ body {
 
 /* The no-JS fallback lives in a <noscript> block in the root layout. */
 
+/* ---------------------------------------------------------------
+   Experience — one entry pointing at another.
+   The whole gesture is a single amber wash running down the row being
+   pointed at. Nothing else moves: the rule down the left of each row
+   stays a plain hover affordance.
+   --------------------------------------------------------------- */
+/* Deliberately bare: the accent colour and the cursor are the whole
+   affordance. No hover state — the gesture is on activation. */
+.exp-pointer {
+  color: var(--accent);
+  cursor: pointer;
+}
+
+/* One-shot wash down the row, confirming a click or a tap. */
+@keyframes exp-pulse {
+  from {
+    transform: translateY(-100%);
+    opacity: 0.9;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.exp-pulse {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--accent-glow), transparent);
+  animation: exp-pulse 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
 /* Marquee track */
 @keyframes marquee-left {
   from {
@@ -288,9 +297,22 @@ body {
   animation-name: marquee-right;
 }
 
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track {
-  animation-play-state: paused;
+/* Pausing on hover used to live here, but the row is also scrubbable by
+   hand (see use-marquee-drag) and a CSS play-state fighting the Web
+   Animations API over the same animation is a coin flip. One owner: JS. */
+
+/* Set by the drag hook once it has an animation to scrub — so the grab
+   cursor never appears when there is nothing to grab (no JS, or reduced
+   motion, where the row is a static wrapped list). */
+.marquee[data-draggable="true"] {
+  cursor: grab;
+  /* Vertical swipes still scroll the page; horizontal ones are ours. */
+  touch-action: pan-y;
+}
+
+.marquee[data-dragging="true"] {
+  cursor: grabbing;
+  user-select: none;
 }
 
 /* Technology pill — neutral at rest, brand colour on hover */

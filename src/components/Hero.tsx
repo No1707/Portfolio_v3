@@ -5,9 +5,13 @@ import { ArrowDown, ArrowRight } from "@phosphor-icons/react";
 import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
 import { profile } from "@/content/site";
-import { GridWell } from "./GridWell";
 import { SocialLinks } from "./SocialLinks";
 import { ViewportBadge } from "./ViewportBadge";
+
+/** The hero glow breathes, in seconds: time to come up, then to fade out. */
+const GLOW_UP = 16;
+const GLOW_DOWN = 12;
+const GLOW_CYCLE = GLOW_UP + GLOW_DOWN;
 
 export function Hero({ locale }: { locale: Locale }) {
   const reduceMotion = useReducedMotion();
@@ -23,9 +27,8 @@ export function Hero({ locale }: { locale: Locale }) {
       id="top"
       className="relative isolate flex min-h-[92svh] items-center overflow-hidden pt-16"
     >
-      {/* Blueprint grid, the well that bends it around the cursor, and a glow */}
+      {/* Blueprint grid */}
       <div aria-hidden className="grid-backdrop absolute inset-0 -z-10" />
-      <GridWell />
 
       {/* Effect 5 — one amber line sweeping the hero as the page arrives */}
       {!reduceMotion && (
@@ -55,16 +58,25 @@ export function Hero({ locale }: { locale: Locale }) {
         aria-hidden
         className="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full blur-[120px] sm:left-[22%]"
         style={{ background: "var(--accent-glow)" }}
-        initial={reduceMotion ? false : { opacity: 0, scale: 0.85 }}
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.95 }}
         animate={
           reduceMotion
             ? { opacity: 1 }
-            : { opacity: 1, scale: [0.95, 1.08, 0.95], x: [0, 40, 0] }
+            : { opacity: [0, 1, 0], scale: [0.95, 1.08, 0.95], x: [0, 40, 0] }
         }
         transition={
           reduceMotion
             ? { duration: 0 }
-            : { duration: 18, repeat: Infinity, ease: "easeInOut" }
+            : {
+                // One breath, on repeat: up over GLOW_UP, back down over
+                // GLOW_DOWN. Every value starts and ends on the same
+                // keyframe, so the loop restarts without a seam — that
+                // mismatch is what used to snap the glow out.
+                duration: GLOW_CYCLE,
+                times: [0, GLOW_UP / GLOW_CYCLE, 1],
+                repeat: Infinity,
+                ease: "easeInOut",
+              }
         }
       />
 
