@@ -278,7 +278,7 @@ export const projects: Project[] = [
     },
     year: "2022",
     tech: ["angular", "typescript", "html", "css"],
-    links: {}, // TODO: live URL once deployed
+    links: { live: "https://macronutrients-needs.vercel.app/" },
   },
   {
     title: "Lab — The Strokes",
