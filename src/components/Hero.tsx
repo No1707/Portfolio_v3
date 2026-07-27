@@ -8,7 +8,6 @@ import { profile } from "@/content/site";
 import { SocialLinks } from "./SocialLinks";
 import { ViewportBadge } from "./ViewportBadge";
 
-/** The hero glow breathes, in seconds: time to come up, then to fade out. */
 const GLOW_UP = 16;
 const GLOW_DOWN = 12;
 const GLOW_CYCLE = GLOW_UP + GLOW_DOWN;
@@ -27,10 +26,8 @@ export function Hero({ locale }: { locale: Locale }) {
       id="top"
       className="relative isolate flex min-h-[92svh] items-center overflow-hidden pt-16"
     >
-      {/* Blueprint grid */}
       <div aria-hidden className="grid-backdrop absolute inset-0 -z-10" />
 
-      {/* Effect 5 — one amber line sweeping the hero as the page arrives */}
       {!reduceMotion && (
         <>
           <div
@@ -68,10 +65,6 @@ export function Hero({ locale }: { locale: Locale }) {
           reduceMotion
             ? { duration: 0 }
             : {
-                // One breath, on repeat: up over GLOW_UP, back down over
-                // GLOW_DOWN. Every value starts and ends on the same
-                // keyframe, so the loop restarts without a seam — that
-                // mismatch is what used to snap the glow out.
                 duration: GLOW_CYCLE,
                 times: [0, GLOW_UP / GLOW_CYCLE, 1],
                 repeat: Infinity,
@@ -99,8 +92,6 @@ export function Hero({ locale }: { locale: Locale }) {
             {profile.name} — {t(profile.role, locale)}
           </motion.span>
 
-          {/* One block so the phrase wraps naturally; the accent half is a
-              plain inline span rather than its own animated box. */}
           <motion.span
             {...rise(0.42)}
             className="mt-5 block text-display font-semibold text-balance"

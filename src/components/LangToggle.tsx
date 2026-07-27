@@ -9,7 +9,6 @@ export function LangToggle({ locale }: { locale: Locale }) {
   const other = locales.find((l) => l !== locale) ?? locale;
 
   function switchLanguage() {
-    // Keep the reader where they are when the language changes.
     router.push(`/${other}${window.location.hash}`);
   }
 

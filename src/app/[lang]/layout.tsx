@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import "../globals.css";
 import { isLocale, locales, t, type Locale } from "@/lib/i18n";
+import { siteUrl } from "@/lib/site-url";
 import { profile } from "@/content/site";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
@@ -33,15 +34,21 @@ export async function generateMetadata({
   const description = t(profile.tagline, locale);
 
   return {
+    metadataBase: siteUrl,
     title: { default: title, template: `%s · ${profile.name}` },
     description,
     alternates: {
       canonical: `/${locale}`,
-      languages: Object.fromEntries(locales.map((l) => [l, `/${l}`])),
+      languages: {
+        ...Object.fromEntries(locales.map((l) => [l, `/${l}`])),
+        "x-default": "/",
+      },
     },
     openGraph: {
       type: "website",
       locale: locale === "fr" ? "fr_FR" : "en_US",
+      alternateLocale: locale === "fr" ? "en_US" : "fr_FR",
+      url: `/${locale}`,
       title,
       description,
       siteName: profile.name,
@@ -61,8 +68,6 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       suppressHydrationWarning
     >
       <head>
-        {/* Reveals start hidden and are shown by JS. With JS off they must
-            not stay that way — no script needed to say so. */}
         <noscript>
           <style
             dangerouslySetInnerHTML={{

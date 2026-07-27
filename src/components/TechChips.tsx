@@ -4,11 +4,6 @@ import type { CSSProperties } from "react";
 import type { TechKey } from "@/content/site";
 import { techRegistry } from "./tech-registry";
 
-/**
- * Technology tags used under experience entries and project cards.
- * Same brand-colour-on-hover behaviour as the pills in the Technologies
- * section, one size down.
- */
 export function TechChips({ items }: { items: TechKey[] }) {
   return (
     <ul className="flex flex-wrap gap-2">

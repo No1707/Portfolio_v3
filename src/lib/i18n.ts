@@ -8,10 +8,8 @@ export function isLocale(value: string): value is Locale {
   return (locales as readonly string[]).includes(value);
 }
 
-/** A string that exists in both languages. */
 export type I18nString = Record<Locale, string>;
 
-/** Pick the right language out of an `{ en, fr }` object. */
 export function t(value: I18nString, locale: Locale): string {
   return value[locale];
 }

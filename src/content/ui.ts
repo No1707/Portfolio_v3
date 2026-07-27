@@ -1,6 +1,5 @@
 import type { I18nString } from "@/lib/i18n";
 
-/** Interface chrome: nav, buttons, section headings, aria labels. */
 export const ui = {
   nav: {
     about: { en: "About", fr: "À propos" },

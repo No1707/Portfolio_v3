@@ -1,11 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { defaultLocale, isLocale, locales } from "@/lib/i18n";
 
-/**
- * Picks the best locale from the Accept-Language header, falling back to
- * `defaultLocale`. Kept dependency-free on purpose — two locales don't
- * justify pulling in a negotiator.
- */
 function resolveLocale(request: NextRequest): string {
   const header = request.headers.get("accept-language");
   if (!header) return defaultLocale;
@@ -44,6 +39,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Skip internals and anything that looks like a file (favicon, og image, …)
   matcher: ["/((?!_next|api|.*\\.[\\w]+$).*)"],
 };

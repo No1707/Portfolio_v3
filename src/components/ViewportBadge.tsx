@@ -11,10 +11,6 @@ const BREAKPOINTS: [number, string][] = [
   [0, "xs"],
 ];
 
-/**
- * A small live readout of the viewport width and the Tailwind breakpoint
- * it lands in. Decorative — a wink at anyone who resizes the window.
- */
 export function ViewportBadge() {
   const [width, setWidth] = useState<number | null>(null);
 

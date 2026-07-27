@@ -17,8 +17,6 @@ export function ThemeToggle({ locale }: { locale: Locale }) {
       title={label}
       className="grid size-11 place-items-center rounded-full border border-line text-muted transition-colors duration-200 hover:border-line-strong hover:text-text"
     >
-      {/* Which icon shows is decided by the `dark` class next-themes puts on
-          <html> before first paint — no mount state, no hydration mismatch. */}
       <Sun size={17} weight="bold" aria-hidden className="hidden dark:block" />
       <Moon size={17} weight="bold" aria-hidden className="block dark:hidden" />
     </button>

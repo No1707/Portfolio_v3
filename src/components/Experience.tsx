@@ -8,12 +8,6 @@ import { Section } from "./Section";
 import { Reveal } from "./Reveal";
 import { TechChips } from "./TechChips";
 
-/**
- * The description, with the pointer's phrase turned into a control.
- *
- * Activation only — no hover state. A button rather than a span so it
- * still works at the keyboard and on touch, where hover doesn't exist.
- */
 function Description({
   text,
   pointer,
@@ -28,8 +22,6 @@ function Description({
   const phrase = pointer && t(pointer.phrase, locale);
   const at = phrase ? text.indexOf(phrase) : -1;
 
-  // No pointer, or the copy was edited and the phrase no longer matches —
-  // either way the description still reads correctly on its own.
   if (!pointer || !phrase || at === -1) return <>{text}</>;
 
   return (
@@ -49,11 +41,6 @@ function Description({
 }
 
 export function Experience({ locale }: { locale: Locale }) {
-  /**
-   * The row currently being washed. `key` is bumped on every activation so
-   * the element remounts and the animation replays; the animation ending
-   * unmounts it again.
-   */
   const [pointed, setPointed] = useState<{ target: string; key: number } | null>(null);
 
   const fire = (target: string) =>
@@ -66,7 +53,6 @@ export function Experience({ locale }: { locale: Locale }) {
             <li key={`${entry.organisation}-${index}`} className="border-b border-line">
               <Reveal delay={index * 90}>
                 <article className="group relative">
-                  {/* Amber rule that draws itself down the row on hover */}
                   <span
                     aria-hidden
                     className="absolute inset-y-0 left-0 w-px origin-top scale-y-0 bg-accent transition-transform duration-500 ease-out group-hover:scale-y-100"

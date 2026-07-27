@@ -27,8 +27,6 @@ export function About({ locale }: { locale: Locale }) {
         <Reveal delay={140}>
           <dl className="flex gap-8 lg:flex-col lg:gap-10 lg:border-l lg:border-line lg:pl-10">
             {about.stats.map((stat) => (
-              // col-reverse so the number reads first while `dt` still
-              // precedes `dd` in the DOM, as a definition list requires.
               <div key={stat.value} className="flex flex-col-reverse">
                 <dt className="label mt-2 text-faint">{t(stat.label, locale)}</dt>
                 <dd className="tnum text-h2 font-semibold text-accent">{stat.value}</dd>

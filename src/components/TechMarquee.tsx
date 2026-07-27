@@ -9,17 +9,9 @@ import { techRegistry } from "./tech-registry";
 import { Section } from "./Section";
 import { Reveal } from "./Reveal";
 
-/** Fade the row out at both edges instead of cutting it off. */
 const EDGE_FADE =
   "linear-gradient(to right, transparent, #000 5%, #000 95%, transparent)";
 
-/**
- * Copies of the list laid into the track. The animation travels half of
- * them, so that half has to be at least as wide as the container or the
- * loop shows an empty stretch at its midpoint. The container is capped at
- * 880px by the section's `max-w-6xl`, and two passes of even the shortest
- * row clear that comfortably.
- */
 const PASSES = 4;
 
 function TechPill({ techKey, clone }: { techKey: TechKey; clone?: boolean }) {
@@ -48,12 +40,7 @@ function TechRow({
   index: number;
   locale: Locale;
 }) {
-  // Longer rows travel proportionally longer, so every row moves at
-  // roughly the same perceived speed. One loop covers PASSES / 2 copies,
-  // so the time has to scale with that too.
   const duration = Math.max(28, group.items.length * 6) * (PASSES / 2);
-  // Scrubs the animation below rather than transforming the track itself,
-  // so a row that has been dragged keeps looping from where it was left.
   const boxRef = useMarqueeDrag<HTMLDivElement>();
 
   return (
@@ -70,8 +57,6 @@ function TechRow({
           data-direction={index % 2 === 0 ? "left" : "right"}
           style={{ "--marquee-duration": `${duration}s` } as CSSProperties}
         >
-          {/* Only the first pass is real; the rest exist to make the loop
-              seamless and are hidden from assistive tech. */}
           {Array.from({ length: PASSES }, (_, pass) =>
             group.items.map((key) => (
               <li

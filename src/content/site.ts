@@ -1,19 +1,13 @@
 import type { I18nString } from "@/lib/i18n";
 
-/* ===============================================================
-   ALL SITE CONTENT LIVES HERE.
-   Every string is `{ en: "...", fr: "..." }`.
-   Anything marked TODO is still waiting on real content.
-   =============================================================== */
-
 export type TechKey =
-  // languages & core
+  // Languages
   | "html"
   | "css"
   | "javascript"
   | "typescript"
   | "node"
-  // frameworks & libraries
+  // Frameworks
   | "react"
   | "nextjs"
   | "vue"
@@ -25,7 +19,7 @@ export type TechKey =
   | "motion"
   | "i18next"
   | "zod"
-  // styling & UI
+  // Styling
   | "tailwind"
   | "sass"
   | "bootstrap"
@@ -35,7 +29,7 @@ export type TechKey =
   | "webflow"
   | "wordpress"
   | "shopify"
-  // tooling & platforms
+  // Tooling
   | "git"
   | "github"
   | "gitlab"
@@ -54,9 +48,7 @@ export interface Profile {
   name: string;
   role: I18nString;
   email: string;
-  /** The big hero statement: `accent` is the highlighted half. */
   headline: { lead: I18nString; accent: I18nString };
-  /** Short line under the hero headline. */
   tagline: I18nString;
   available: boolean;
   availability: I18nString;
@@ -90,7 +82,7 @@ export const profile: Profile = {
   ],
 };
 
-/* --------------------------------------------------------------- About */
+/* About */
 
 export const about = {
   intro: {
@@ -123,20 +115,11 @@ export const about = {
   ] satisfies { value: string; label: I18nString }[],
 };
 
-/* ---------------------------------------------------------- Experience */
+/* Experience */
 
-/**
- * Turns a run of text inside a description into a pointer at another
- * entry: activating it washes that entry in amber. Kept in the content
- * rather than wired to a row index, so the link survives any reordering
- * of the list.
- */
 export interface EntryPointer {
-  /** `organisation` of the entry being pointed at. */
   target: string;
-  /** The exact phrase to mark up. Must appear in the description. */
   phrase: I18nString;
-  /** Spoken label — the line and the highlight are purely visual. */
   label: I18nString;
 }
 
@@ -144,7 +127,6 @@ export interface ExperienceEntry {
   period: I18nString;
   role: I18nString;
   organisation: string;
-  /** "Full-time", "Work-study", "Degree"… */
   kind: I18nString;
   description: I18nString;
   tech: TechKey[];
@@ -206,21 +188,14 @@ export const experience: ExperienceEntry[] = [
   },
 ];
 
-/* ------------------------------------------------------------ Projects */
+/* Projects */
 
 export interface Project {
   title: string;
-  /**
-   * Category, drawn from a deliberately closed vocabulary — currently
-   * just "Website" and "Web app". It has to repeat across projects to
-   * read as a taxonomy; a phrase unique to one project only restates
-   * the description below it.
-   */
   summary: I18nString;
   description: I18nString;
   year: string;
   tech: TechKey[];
-  /** Live URL only — no repositories are linked from this site. */
   links: { live?: string };
 }
 
@@ -293,7 +268,7 @@ export const projects: Project[] = [
   },
 ];
 
-/* -------------------------------------------------------- Technologies */
+/* Technologies */
 
 export interface TechGroup {
   label: I18nString;

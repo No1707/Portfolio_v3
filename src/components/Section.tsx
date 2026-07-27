@@ -5,7 +5,6 @@ import { Reveal } from "./Reveal";
 
 interface SectionProps {
   id: string;
-  /** Two-digit index shown before the title. */
   index: string;
   title: string;
   children: ReactNode;

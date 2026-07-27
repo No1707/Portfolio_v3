@@ -12,11 +12,6 @@ import { LangToggle } from "./LangToggle";
 const SECTIONS = ["about", "experience", "projects", "stack", "contact"] as const;
 type SectionId = (typeof SECTIONS)[number];
 
-/**
- * Distance from the top of the viewport at which a section counts as
- * "current". Must sit just below `scroll-padding-top` (5rem = 80px) so that
- * a section jumped to via the nav registers as active the moment it lands.
- */
 const SPY_OFFSET = 96;
 
 export function Header({ locale }: { locale: Locale }) {
@@ -44,7 +39,6 @@ export function Header({ locale }: { locale: Locale }) {
         if (el && el.getBoundingClientRect().top <= SPY_OFFSET) current = id;
       }
 
-      // At the very bottom, always light up the last section.
       const atBottom =
         window.innerHeight + window.scrollY >= document.body.scrollHeight - 4;
       setActive(atBottom ? SECTIONS[SECTIONS.length - 1] : current);
@@ -64,7 +58,6 @@ export function Header({ locale }: { locale: Locale }) {
     };
   }, []);
 
-  // Lock the page while the mobile sheet is open.
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
@@ -83,7 +76,6 @@ export function Header({ locale }: { locale: Locale }) {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      {/* Reading progress */}
       <motion.div
         aria-hidden
         style={{ scaleX: progress }}

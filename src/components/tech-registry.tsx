@@ -40,23 +40,17 @@ import {
 } from "@icons-pack/react-simple-icons";
 import type { TechKey } from "@/content/site";
 
-/** Every simple-icons component shares the same signature. */
 type IconComponent = typeof SiReact;
 
-/**
- * `hex` is the brand colour used on hover. A few brands are pure black or
- * pure white, which disappears against one of our two themes — those are
- * nudged to a neutral that reads on both.
- */
 export const techRegistry: Record<TechKey, { name: string; Icon: IconComponent; hex: string }> = {
-  // languages & core
+  // Languages
   html: { name: "HTML5", Icon: SiHtml5, hex: "#E34F26" },
   css: { name: "CSS", Icon: SiCss, hex: "#663399" },
   javascript: { name: "JavaScript", Icon: SiJavascript, hex: "#F7DF1E" },
   typescript: { name: "TypeScript", Icon: SiTypescript, hex: "#3178C6" },
   node: { name: "Node.js", Icon: SiNodedotjs, hex: "#5FA04E" },
 
-  // frameworks & libraries
+  // Frameworks
   react: { name: "React", Icon: SiReact, hex: "#61DAFB" },
   nextjs: { name: "Next.js", Icon: SiNextdotjs, hex: "#9A9AA5" },
   vue: { name: "Vue.js", Icon: SiVuedotjs, hex: "#4FC08D" },
@@ -69,7 +63,7 @@ export const techRegistry: Record<TechKey, { name: string; Icon: IconComponent; 
   i18next: { name: "i18n", Icon: SiI18next, hex: "#26A69A" },
   zod: { name: "Zod", Icon: SiZod, hex: "#3E67B1" },
 
-  // styling & UI
+  // Styling
   tailwind: { name: "Tailwind CSS", Icon: SiTailwindcss, hex: "#06B6D4" },
   sass: { name: "Sass", Icon: SiSass, hex: "#CC6699" },
   bootstrap: { name: "Bootstrap", Icon: SiBootstrap, hex: "#7952B3" },
@@ -80,7 +74,7 @@ export const techRegistry: Record<TechKey, { name: string; Icon: IconComponent; 
   wordpress: { name: "WordPress", Icon: SiWordpress, hex: "#5A96BD" },
   shopify: { name: "Shopify", Icon: SiShopify, hex: "#7AB55C" },
 
-  // tooling & platforms
+  // Tooling
   git: { name: "Git", Icon: SiGit, hex: "#F05032" },
   github: { name: "GitHub", Icon: SiGithub, hex: "#9A9AA5" },
   gitlab: { name: "GitLab", Icon: SiGitlab, hex: "#FC6D26" },

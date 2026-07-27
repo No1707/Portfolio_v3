@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
-import { isLocale, t } from "@/lib/i18n";
+import { isLocale, t, type Locale } from "@/lib/i18n";
+import { absolute } from "@/lib/site-url";
 import { ui } from "@/content/ui";
+import { experience, profile } from "@/content/site";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
@@ -10,12 +12,43 @@ import { TechMarquee } from "@/components/TechMarquee";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 
+function personJsonLd(locale: Locale) {
+  const current = experience[0];
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: profile.name,
+    jobTitle: t(profile.role, locale),
+    description: t(profile.tagline, locale),
+    email: `mailto:${profile.email}`,
+    url: absolute(`/${locale}`),
+    image: absolute(`/${locale}/opengraph-image`),
+    knowsLanguage: ["fr", "en"],
+    worksFor: { "@type": "Organization", name: current.organisation },
+    alumniOf: {
+      "@type": "EducationalOrganization",
+      name: experience[experience.length - 1].organisation,
+    },
+    sameAs: profile.socials
+      .filter((social) => social.icon !== "mail")
+      .map((social) => social.href),
+  };
+}
+
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(personJsonLd(lang)).replace(/</g, "\\u003c"),
+        }}
+      />
+
       <a
         href="#main"
         className="label sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-accent focus:px-4 focus:py-3 focus:text-accent-contrast"
