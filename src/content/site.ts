@@ -175,7 +175,7 @@ export const experience: ExperienceEntry[] = [
     ],
   },
   {
-    period: { en: "2021 — 2022", fr: "2021 — 2022" },
+    period: { en: "2020 — 2021", fr: "2020 — 2021" },
     role: { en: "Front-end Developer", fr: "Développeur front-end" },
     organisation: "Kawalearn",
     kind: { en: "Work-study", fr: "Alternance" },
@@ -186,7 +186,7 @@ export const experience: ExperienceEntry[] = [
     tech: ["html", "css", "javascript", "sass", "git", "wordpress", "shopify"],
   },
   {
-    period: { en: "2019 — 2022", fr: "2019 — 2022" },
+    period: { en: "2018 — 2021", fr: "2018 — 2021" },
     role: { en: "Web Development Degree", fr: "Formation développement web" },
     organisation: "École Multimédia",
     kind: { en: "Three-year degree", fr: "Bac +3" },
