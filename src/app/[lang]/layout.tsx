@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 import { isLocale, locales, t, type Locale } from "@/lib/i18n";
 import { siteUrl } from "@/lib/site-url";
@@ -78,6 +79,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       </head>
       <body className="bg-bg text-text">
         <ThemeProvider>{children}</ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
