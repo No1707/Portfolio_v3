@@ -76,11 +76,12 @@ export function Header({ locale }: { locale: Locale }) {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      <motion.div
-        aria-hidden
-        style={{ scaleX: progress }}
-        className="h-px origin-left bg-accent"
-      />
+      <div aria-hidden className="bg-bg">
+        <motion.div
+          style={{ scaleX: progress }}
+          className="h-px origin-left bg-accent"
+        />
+      </div>
 
       <div
         className={`transition-colors duration-300 ${
