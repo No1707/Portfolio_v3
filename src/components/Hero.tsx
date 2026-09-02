@@ -101,10 +101,6 @@ export function Hero({ locale }: { locale: Locale }) {
           </motion.span>
         </h1>
 
-        <motion.p {...rise(0.54)} className="mt-8 max-w-xl text-lead text-muted">
-          {t(profile.tagline, locale)}
-        </motion.p>
-
         <motion.div {...rise(0.62)} className="mt-10 flex flex-wrap items-center gap-3">
           <a
             href="#projects"

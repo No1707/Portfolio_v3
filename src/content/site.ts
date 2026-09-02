@@ -282,28 +282,14 @@ export const techGroups: TechGroup[] = [
   },
   {
     label: { en: "Frameworks & libraries", fr: "Frameworks & librairies" },
-    items: ["react", "nextjs", "vue", "nuxt", "angular", "pinia", "motion", "i18next"],
+    items: ["react", "nextjs", "vue", "nuxt", "pinia", "motion", "i18next"],
   },
   {
     label: { en: "Styling & UI", fr: "Styles & UI" },
-    items: ["tailwind", "sass", "bootstrap", "shadcn", "vuetify", "styledcomponents", "figma"],
+    items: ["tailwind", "sass", "shadcn", "vuetify", "styledcomponents"],
   },
   {
     label: { en: "Tooling & platforms", fr: "Outils & plateformes" },
-    items: [
-      "git",
-      "github",
-      "gitlab",
-      "webstorm",
-      "vite",
-      "eslint",
-      "cypress",
-      "docker",
-      "supabase",
-      "sanity",
-      "firebase",
-      "vercel",
-      "webflow",
-    ],
+    items: ["git", "vite", "cypress", "docker", "supabase", "sanity", "vercel", "webflow"],
   },
 ];
