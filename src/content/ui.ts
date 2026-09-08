@@ -28,6 +28,10 @@ export const ui = {
     switchLanguage: { en: "Switch to French", fr: "Passer en anglais" },
   } satisfies Record<string, I18nString>,
 
+  about: {
+    portraitAlt: { en: "Portrait of Nolan", fr: "Portrait de Nolan" },
+  },
+
   contact: {
     headline: { en: "Let's build something", fr: "Construisons quelque chose" },
     cta: { en: "Write to me", fr: "Discutons" },

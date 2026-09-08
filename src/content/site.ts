@@ -50,8 +50,6 @@ export interface Profile {
   email: string;
   headline: { lead: I18nString; accent: I18nString };
   tagline: I18nString;
-  available: boolean;
-  availability: I18nString;
   socials: { label: string; href: string; icon: "github" | "linkedin" | "mail" }[];
 }
 
@@ -63,17 +61,12 @@ export const profile: Profile = {
   },
   email: "nolanwebpro@gmail.com",
   headline: {
-    lead: { en: "I turn ideas into", fr: "Je transforme des idées en" },
+    lead: { en: "Turning your ideas into", fr: "Transformer vos idées en" },
     accent: { en: "functional interfaces.", fr: "interfaces fonctionnelles." },
   },
   tagline: {
     en: "Seven years turning designs into fast, accessible, carefully-built web interfaces.",
     fr: "Sept ans à transformer des maquettes en interfaces web rapides, accessibles et soignées.",
-  },
-  available: true,
-  availability: {
-    en: "Open to new opportunities",
-    fr: "Ouvert aux opportunités",
   },
   socials: [
     { label: "GitHub", href: "https://github.com/No1707", icon: "github" },
@@ -103,16 +96,6 @@ export const about = {
       fr: "Je m'intéresse aux interfaces utilisateur modernes, fiables, pixel-perfect. Au code réutilisable et qui tient dans le temps. Et aussi aux MMORPG, au tennis et à la moto.",
     },
   ] satisfies I18nString[],
-  stats: [
-    {
-      value: "7",
-      label: { en: "Years in front-end", fr: "Ans de front-end" },
-    },
-    {
-      value: "4",
-      label: { en: "Years in the same team", fr: "Ans dans la même équipe" },
-    },
-  ] satisfies { value: string; label: I18nString }[],
 };
 
 /* Experience */
@@ -226,8 +209,8 @@ export const projects: Project[] = [
     title: "Codoc",
     summary: { en: "Website", fr: "Site web" },
     description: {
-      en: "The company's public website.",
-      fr: "Le site public de l'entreprise.",
+      en: "My company's public website.",
+      fr: "Le site public de mon entreprise.",
     },
     year: "2025",
     tech: ["webflow", "html", "css", "javascript"],
@@ -248,8 +231,8 @@ export const projects: Project[] = [
     title: "MacroNutrients",
     summary: { en: "Web app", fr: "Application web" },
     description: {
-      en: "A calculator that works out daily macronutrient needs from a few personal inputs. Desktop only.",
-      fr: "Un calculateur qui détermine les besoins quotidiens en macronutriments à partir de quelques données personnelles. Non responsive.",
+      en: "A calculator that works out daily macronutrient needs from a few personal inputs.",
+      fr: "Un calculateur qui détermine les besoins quotidiens en macronutriments à partir de quelques données personnelles.",
     },
     year: "2022",
     tech: ["angular", "typescript", "html", "css"],
@@ -282,7 +265,7 @@ export const techGroups: TechGroup[] = [
   },
   {
     label: { en: "Frameworks & libraries", fr: "Frameworks & librairies" },
-    items: ["react", "nextjs", "vue", "nuxt", "pinia", "motion", "i18next"],
+    items: ["react", "nextjs", "vue", "nuxt", "motion"],
   },
   {
     label: { en: "Styling & UI", fr: "Styles & UI" },
@@ -290,6 +273,6 @@ export const techGroups: TechGroup[] = [
   },
   {
     label: { en: "Tooling & platforms", fr: "Outils & plateformes" },
-    items: ["git", "vite", "cypress", "docker", "supabase", "sanity", "vercel", "webflow"],
+    items: ["git", "vite", "cypress", "supabase", "sanity", "vercel", "webflow"],
   },
 ];

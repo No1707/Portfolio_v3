@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Geist, Instrument_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 import { isLocale, locales, t, type Locale } from "@/lib/i18n";
@@ -14,11 +14,10 @@ const sans = Instrument_Sans({
   variable: "--font-sans-var",
 });
 
-const mono = JetBrains_Mono({
+const label = Geist({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500"],
-  variable: "--font-mono-var",
+  variable: "--font-label-var",
 });
 
 export function generateStaticParams() {
@@ -65,7 +64,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   return (
     <html
       lang={lang}
-      className={`${sans.variable} ${mono.variable}`}
+      className={`${sans.variable} ${label.variable}`}
       suppressHydrationWarning
     >
       <head>

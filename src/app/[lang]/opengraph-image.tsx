@@ -67,18 +67,8 @@ export default async function Image({ params }: { params: Promise<{ lang: string
 
         <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
           <div style={{ display: "flex", width: "100%", height: 1, background: LINE }} />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              fontSize: 25,
-              color: MUTED,
-            }}
-          >
-            <div style={{ display: "flex" }}>{profile.email}</div>
-            <div style={{ display: "flex", color: AMBER }}>
-              {t(profile.availability, locale)}
-            </div>
+          <div style={{ display: "flex", fontSize: 25, color: MUTED }}>
+            {profile.email}
           </div>
         </div>
       </div>

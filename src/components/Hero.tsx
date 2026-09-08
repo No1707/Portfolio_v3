@@ -6,7 +6,6 @@ import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
 import { profile } from "@/content/site";
 import { SocialLinks } from "./SocialLinks";
-import { ViewportBadge } from "./ViewportBadge";
 
 const GLOW_UP = 16;
 const GLOW_DOWN = 12;
@@ -74,20 +73,7 @@ export function Hero({ locale }: { locale: Locale }) {
       />
 
       <div className="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8">
-        <motion.p
-          {...rise(0.3)}
-          className="label inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/50 px-3 py-2 text-muted"
-        >
-          <span className="relative flex size-1.5" aria-hidden>
-            {profile.available && (
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
-            )}
-            <span className="relative inline-flex size-1.5 rounded-full bg-accent" />
-          </span>
-          {t(profile.availability, locale)}
-        </motion.p>
-
-        <h1 className="mt-8">
+        <h1>
           <motion.span {...rise(0.36)} className="label block text-faint">
             {profile.name} — {t(profile.role, locale)}
           </motion.span>
@@ -131,13 +117,11 @@ export function Hero({ locale }: { locale: Locale }) {
         {...rise(0.8)}
         href="#about"
         aria-label={t(ui.actions.scrollDown, locale)}
-        className="absolute bottom-8 left-5 hidden items-center gap-2 text-faint transition-colors duration-200 hover:text-accent sm:left-8 sm:flex"
+        className="absolute right-5 bottom-8 hidden items-center gap-2 text-faint transition-colors duration-200 hover:text-accent sm:right-8 sm:flex"
       >
-        <ArrowDown size={14} weight="bold" aria-hidden className="animate-bounce" />
         <span className="label">{t(ui.nav.about, locale)}</span>
+        <ArrowDown size={14} weight="bold" aria-hidden className="animate-bounce" />
       </motion.a>
-
-      <ViewportBadge />
     </section>
   );
 }
