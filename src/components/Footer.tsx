@@ -8,7 +8,7 @@ export function Footer({ locale }: { locale: Locale }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-line">
+    <footer>
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
         <p className="label text-faint">
           © {year} {profile.name} · {t(ui.footer.rights, locale)}

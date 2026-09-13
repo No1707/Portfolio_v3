@@ -12,7 +12,7 @@ interface SectionProps {
 
 export function Section({ id, index, title, children }: SectionProps) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="border-t border-line">
+    <section id={id} aria-labelledby={`${id}-title`}>
       <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
         <Reveal>
           <div className="flex items-center gap-4">

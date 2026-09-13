@@ -147,6 +147,14 @@ body {
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
 }
 
+@utility grid-spotlight {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(circle 240px at var(--mx, 50%) var(--my, 50%), #000 30%, transparent 100%);
+}
+
 /* Hero */
 @keyframes scan-sweep {
   from {

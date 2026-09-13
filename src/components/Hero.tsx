@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, type PointerEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowRight } from "@phosphor-icons/react";
 import { t, type Locale } from "@/lib/i18n";
@@ -13,6 +14,7 @@ const GLOW_CYCLE = GLOW_UP + GLOW_DOWN;
 
 export function Hero({ locale }: { locale: Locale }) {
   const reduceMotion = useReducedMotion();
+  const spotlight = useRef<HTMLDivElement>(null);
 
   const rise = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 24 },
@@ -20,12 +22,33 @@ export function Hero({ locale }: { locale: Locale }) {
     transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] as const },
   });
 
+  const trackPointer = (event: PointerEvent<HTMLElement>) => {
+    const el = spotlight.current;
+    if (!el || event.pointerType !== "mouse") return;
+    const box = event.currentTarget.getBoundingClientRect();
+    el.style.setProperty("--mx", `${event.clientX - box.left}px`);
+    el.style.setProperty("--my", `${event.clientY - box.top}px`);
+    el.dataset.active = "true";
+  };
+
+  const hideSpotlight = () => {
+    if (spotlight.current) spotlight.current.dataset.active = "false";
+  };
+
   return (
     <section
       id="top"
+      onPointerMove={trackPointer}
+      onPointerLeave={hideSpotlight}
       className="relative isolate flex min-h-[92svh] items-center overflow-hidden pt-16"
     >
       <div aria-hidden className="grid-backdrop absolute inset-0 -z-10" />
+      <div
+        ref={spotlight}
+        aria-hidden
+        data-active="false"
+        className="grid-spotlight pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 data-[active=true]:opacity-100"
+      />
 
       {!reduceMotion && (
         <>

@@ -26,6 +26,7 @@ export const ui = {
     closeMenu: { en: "Close menu", fr: "Fermer le menu" },
     toggleTheme: { en: "Switch theme", fr: "Changer de thème" },
     switchLanguage: { en: "Switch to French", fr: "Passer en anglais" },
+    backToTop: { en: "Back to top", fr: "Retour en haut" },
   } satisfies Record<string, I18nString>,
 
   about: {

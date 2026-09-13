@@ -16,7 +16,7 @@ export function Contact({ locale }: { locale: Locale }) {
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className="relative isolate overflow-hidden border-t border-line"
+      className="relative isolate overflow-hidden"
     >
       <div
         aria-hidden

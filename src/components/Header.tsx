@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
-import { List, X } from "@phosphor-icons/react";
+import { ArrowUp, List, X } from "@phosphor-icons/react";
 import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
-import { profile } from "@/content/site";
 import { ThemeToggle } from "./ThemeToggle";
 import { LangToggle } from "./LangToggle";
 
@@ -91,18 +90,6 @@ export function Header({ locale }: { locale: Locale }) {
         }`}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
-          <a
-            href="#top"
-            className="label flex items-center gap-2 text-text"
-            aria-label={profile.name}
-          >
-            <span
-              aria-hidden
-              className="inline-block size-1.5 rounded-full bg-accent"
-            />
-            {profile.name}
-          </a>
-
           <nav aria-label="Primary" className="hidden md:block">
             <ul className="flex items-center gap-1">
               {SECTIONS.map((id) => {
@@ -132,7 +119,7 @@ export function Header({ locale }: { locale: Locale }) {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-2">
             <LangToggle locale={locale} />
             <ThemeToggle locale={locale} />
             <button
@@ -147,6 +134,19 @@ export function Header({ locale }: { locale: Locale }) {
           </div>
         </div>
       </div>
+
+      <button
+        type="button"
+        onClick={() => window.scrollTo({ top: 0 })}
+        aria-label={t(ui.actions.backToTop, locale)}
+        aria-hidden={active === null}
+        tabIndex={active === null ? -1 : 0}
+        className={`fixed right-5 bottom-5 grid size-11 place-items-center rounded-full border border-line bg-bg/75 text-muted backdrop-blur-xl transition-[opacity,translate,color,border-color] duration-300 hover:border-line-strong hover:text-text sm:right-8 sm:bottom-8 ${
+          active === null ? "pointer-events-none translate-y-3 opacity-0" : "opacity-100"
+        }`}
+      >
+        <ArrowUp size={17} weight="bold" aria-hidden />
+      </button>
 
       <AnimatePresence>
         {menuOpen && (
