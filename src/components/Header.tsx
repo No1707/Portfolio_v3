@@ -141,7 +141,7 @@ export function Header({ locale }: { locale: Locale }) {
         aria-label={t(ui.actions.backToTop, locale)}
         aria-hidden={active === null}
         tabIndex={active === null ? -1 : 0}
-        className={`fixed right-5 bottom-5 grid size-11 place-items-center rounded-full border border-line bg-bg/75 text-muted backdrop-blur-xl transition-[opacity,translate,color,border-color] duration-300 hover:border-line-strong hover:text-text sm:right-8 sm:bottom-8 ${
+        className={`fixed right-5 bottom-5 grid size-11 cursor-pointer place-items-center rounded-full border border-line bg-bg/75 text-muted backdrop-blur-xl transition-[opacity,translate,color,border-color] duration-300 hover:border-line-strong hover:text-text sm:right-8 sm:bottom-8 ${
           active === null ? "pointer-events-none translate-y-3 opacity-0" : "opacity-100"
         }`}
       >

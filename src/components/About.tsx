@@ -9,7 +9,7 @@ import { Reveal } from "./Reveal";
 
 export function About({ locale }: { locale: Locale }) {
   return (
-    <Section id="about" index="01" title={t(ui.sections.about, locale)}>
+    <Section id="about" title={t(ui.sections.about, locale)}>
       <div className="grid gap-12 lg:grid-cols-[auto_1fr] lg:items-start lg:gap-20">
         <Reveal>
           <div className="relative aspect-square w-40 overflow-hidden rounded-2xl border border-line bg-surface/40 sm:w-44">

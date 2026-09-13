@@ -10,7 +10,7 @@ import { TechChips } from "./TechChips";
 
 export function Projects({ locale }: { locale: Locale }) {
   return (
-    <Section id="projects" index="03" title={t(ui.sections.projects, locale)}>
+    <Section id="projects" title={t(ui.sections.projects, locale)}>
       <ul className="grid gap-4 md:grid-cols-2">
         {projects.map((project, index) => {
           const primaryHref = project.links.live;

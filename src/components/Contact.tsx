@@ -27,7 +27,6 @@ export function Contact({ locale }: { locale: Locale }) {
       <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
         <Reveal>
           <div className="flex items-center gap-4">
-            <span className="label tnum text-accent">05</span>
             <span className="label text-faint">{t(ui.sections.contact, locale)}</span>
             <span aria-hidden className="h-px flex-1 bg-line" />
           </div>

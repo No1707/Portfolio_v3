@@ -155,6 +155,37 @@ body {
   mask-image: radial-gradient(circle 240px at var(--mx, 50%) var(--my, 50%), #000 30%, transparent 100%);
 }
 
+@property --ripple-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes grid-ripple {
+  0% {
+    --ripple-r: 0px;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  100% {
+    --ripple-r: 900px;
+    opacity: 0;
+  }
+}
+
+@utility grid-ripple {
+  background-image:
+    linear-gradient(to right, var(--grid-line-lit) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line-lit) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image:
+    radial-gradient(circle at var(--cx) var(--cy), transparent calc(var(--ripple-r) - 80px), #000 var(--ripple-r), transparent calc(var(--ripple-r) + 2px)),
+    radial-gradient(circle at var(--cx) var(--cy), transparent calc(var(--ripple-r) * 0.62 - 50px), rgb(0 0 0 / 0.45) calc(var(--ripple-r) * 0.62), transparent calc(var(--ripple-r) * 0.62 + 2px));
+  animation: grid-ripple 1600ms cubic-bezier(0.2, 0.6, 0.35, 1) forwards;
+}
+
 /* Hero */
 @keyframes scan-sweep {
   from {

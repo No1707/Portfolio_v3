@@ -76,7 +76,7 @@ function TechRow({
 
 export function TechMarquee({ locale }: { locale: Locale }) {
   return (
-    <Section id="stack" index="04" title={t(ui.sections.stack, locale)}>
+    <Section id="stack" title={t(ui.sections.stack, locale)}>
       <div className="space-y-6">
         {techGroups.map((group, index) => (
           <Reveal key={index} delay={index * 80}>

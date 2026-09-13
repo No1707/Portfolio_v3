@@ -47,7 +47,7 @@ export function Experience({ locale }: { locale: Locale }) {
     setPointed((previous) => ({ target, key: (previous?.key ?? 0) + 1 }));
 
   return (
-    <Section id="experience" index="02" title={t(ui.sections.experience, locale)}>
+    <Section id="experience" title={t(ui.sections.experience, locale)}>
       <ol className="border-t border-line">
         {experience.map((entry, index) => (
             <li key={`${entry.organisation}-${index}`} className="border-b border-line">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type PointerEvent } from "react";
+import { useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowRight } from "@phosphor-icons/react";
 import { t, type Locale } from "@/lib/i18n";
@@ -15,6 +15,8 @@ const GLOW_CYCLE = GLOW_UP + GLOW_DOWN;
 export function Hero({ locale }: { locale: Locale }) {
   const reduceMotion = useReducedMotion();
   const spotlight = useRef<HTMLDivElement>(null);
+  const rippleId = useRef(0);
+  const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
 
   const rise = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 24 },
@@ -35,11 +37,24 @@ export function Hero({ locale }: { locale: Locale }) {
     if (spotlight.current) spotlight.current.dataset.active = "false";
   };
 
+  const dropRipple = (event: PointerEvent<HTMLElement>) => {
+    if (reduceMotion || event.button !== 0) return;
+    if ((event.target as Element).closest("a, button")) return;
+    const box = event.currentTarget.getBoundingClientRect();
+    const ripple = {
+      id: ++rippleId.current,
+      x: event.clientX - box.left,
+      y: event.clientY - box.top,
+    };
+    setRipples((list) => [...list.slice(-3), ripple]);
+  };
+
   return (
     <section
       id="top"
       onPointerMove={trackPointer}
       onPointerLeave={hideSpotlight}
+      onPointerDown={dropRipple}
       className="relative isolate flex min-h-[92svh] items-center overflow-hidden pt-16"
     >
       <div aria-hidden className="grid-backdrop absolute inset-0 -z-10" />
@@ -49,6 +64,17 @@ export function Hero({ locale }: { locale: Locale }) {
         data-active="false"
         className="grid-spotlight pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 data-[active=true]:opacity-100"
       />
+      {ripples.map((ripple) => (
+        <span
+          key={ripple.id}
+          aria-hidden
+          className="grid-ripple pointer-events-none absolute inset-0 -z-10"
+          style={{ "--cx": `${ripple.x}px`, "--cy": `${ripple.y}px` } as CSSProperties}
+          onAnimationEnd={() =>
+            setRipples((list) => list.filter((item) => item.id !== ripple.id))
+          }
+        />
+      ))}
 
       {!reduceMotion && (
         <>
