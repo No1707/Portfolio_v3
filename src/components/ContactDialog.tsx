@@ -78,13 +78,10 @@ export function ContactDialog({ locale }: { locale: Locale }) {
         className="m-auto w-[min(34rem,calc(100%-2.5rem))] rounded-2xl border border-line bg-bg p-0 text-text shadow-2xl transition duration-200 backdrop:bg-bg/70 backdrop:backdrop-blur-sm starting:translate-y-3 starting:opacity-0"
       >
         <div className="p-6 sm:p-8">
-          <div className="flex items-start justify-between gap-6">
-            <div>
-              <h3 id="contact-form-title" className="text-h3 font-medium">
-                {t(ui.form.title, locale)}
-              </h3>
-              <p className="mt-2 text-sm text-muted">{t(ui.form.intro, locale)}</p>
-            </div>
+          <div className="flex items-center justify-between gap-6">
+            <h3 id="contact-form-title" className="text-h3 font-medium">
+              {t(ui.contact.cta, locale)}
+            </h3>
             <button
               type="button"
               onClick={close}

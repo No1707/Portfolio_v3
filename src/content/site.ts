@@ -185,7 +185,7 @@ export const projects: Project[] = [
       fr: "Une vitrine pour un studio de montage vidéo.",
     },
     year: "2026",
-    tech: ["nextjs", "typescript", "sanity", "motion", "styledcomponents", "vercel"],
+    tech: ["nextjs", "react", "typescript", "sanity", "motion", "styledcomponents"],
     links: { live: "https://the-virtuose-rho.vercel.app/en" },
   },
   {

@@ -46,19 +46,14 @@ export const ui = {
   },
 
   form: {
-    title: { en: "Write to me", fr: "Écrivez-moi" },
-    intro: {
-      en: "Tell me about your project, I'll get back to you quickly.",
-      fr: "Parlez-moi de votre projet, je vous réponds rapidement.",
-    },
     name: { en: "Name", fr: "Nom" },
     email: { en: "Email", fr: "E-mail" },
     message: { en: "Message", fr: "Message" },
     send: { en: "Send", fr: "Envoyer" },
     sending: { en: "Sending…", fr: "Envoi…" },
     sent: {
-      en: "Thanks, your message is on its way. I'll get back to you soon.",
-      fr: "Merci, votre message est bien parti. Je vous réponds très vite.",
+      en: "Thanks, your message is on its way.",
+      fr: "Merci, votre message est bien parti.",
     },
     error: {
       en: "Sending failed. Try again or write to me directly at",
