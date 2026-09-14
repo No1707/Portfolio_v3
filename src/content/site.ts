@@ -123,8 +123,8 @@ export const experience: ExperienceEntry[] = [
     organisation: "Codoc",
     kind: { en: "Full-time", fr: "CDI" },
     description: {
-      en: "Within a product & tech team, I spent four years working on a medical application used by doctors and researchers from around twenty partner health institutions. The goal: the analysis of patient data to help diagnose rare diseases. I built new features, improved and maintained the codebase, and took part in modernising the application — notably by leading the migration from Vue.js 2 to Vue.js 3 and the evolution of the design system. I also contributed to technical decisions, to improving development practices, and to mentoring interns.",
-      fr: "Au sein d'une équipe produit & tech, j'ai participé pendant quatre ans au développement d'une application médicale utilisée par des médecins et des chercheurs issus d'une vingtaine d'établissements de santé partenaires. L'objectif : l'analyse de données patients afin de contribuer au diagnostic de maladies rares. J'ai développé de nouvelles fonctionnalités, amélioré et maintenu le code, et participé à la modernisation de l'application — notamment en menant la migration de Vue.js 2 vers Vue.js 3 et l'évolution du design system. J'ai également contribué aux choix techniques, à l'amélioration des pratiques de développement et à l'encadrement de stagiaires.",
+      en: "Within a product & tech team, I spent four years working on a medical application used by doctors and researchers from around twenty partner health institutions. The goal is the analysis of patient data to help diagnose rare diseases. There, I built new features, improved and maintained the codebase, modernised the application by moving it from an old version of its technology to the latest one, and evolved the design system. I also had the opportunity to contribute to technical decisions, to improving development practices, and to mentoring interns.",
+      fr: "Au sein d'une équipe produit & tech, j'ai participé pendant quatre ans au développement d'une application médicale utilisée par des médecins et des chercheurs issus d'une vingtaine d'établissements de santé partenaires. L'objectif est l'analyse de données patients afin de contribuer au diagnostic de maladies rares. J'y ai développé de nouvelles fonctionnalités, amélioré et maintenu le code, modernisé l'application en la faisant passer d'une ancienne version de sa technologie à la plus récente et fait évoluer le design system. J'ai également eu l'occasion de contribuer aux choix techniques, à l'amélioration des pratiques de développement et à l'encadrement de stagiaires.",
     },
     tech: [
       "vue",
@@ -154,7 +154,7 @@ export const experience: ExperienceEntry[] = [
     period: { en: "2018 — 2021", fr: "2018 — 2021" },
     role: { en: "Web Development Degree", fr: "Formation développement web" },
     organisation: "École Multimédia",
-    kind: { en: "Three-year degree", fr: "Bac +3" },
+    kind: { en: "Degree", fr: "Diplôme" },
     description: {
       en: "Three years covering web fundamentals, with a focus on front-end and project management — the final year spent in work-study.",
       fr: "Trois années couvrant les fondamentaux du web, focus sur le front-end et la conduite de projet — la dernière année passée en alternance.",

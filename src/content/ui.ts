@@ -12,7 +12,7 @@ export const ui = {
   sections: {
     about: { en: "About", fr: "À propos" },
     experience: { en: "Experience", fr: "Parcours" },
-    projects: { en: "Selected projects", fr: "Projets sélectionnés" },
+    projects: { en: "Projects", fr: "Projets" },
     stack: { en: "Technologies", fr: "Technologies" },
     contact: { en: "Contact", fr: "Contact" },
   } satisfies Record<string, I18nString>,
