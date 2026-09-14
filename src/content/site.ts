@@ -40,6 +40,8 @@ export type TechKey =
 
 export interface Profile {
   name: string;
+  lastName: string;
+  expertise: string[];
   role: I18nString;
   email: string;
   headline: { lead: I18nString; accent: I18nString };
@@ -49,9 +51,21 @@ export interface Profile {
 
 export const profile: Profile = {
   name: "Nolan",
+  lastName: "Boisel",
+  expertise: [
+    "React",
+    "Next.js",
+    "Vue.js",
+    "Nuxt",
+    "JavaScript",
+    "TypeScript",
+    "HTML",
+    "CSS",
+    "Tailwind CSS",
+  ],
   role: {
-    en: "Front-end developer",
-    fr: "Développeur front-end",
+    en: "Freelance front-end developer",
+    fr: "Développeur front-end freelance",
   },
   email: "nolanwebpro@gmail.com",
   headline: {
@@ -59,8 +73,8 @@ export const profile: Profile = {
     accent: { en: "functional interfaces.", fr: "interfaces fonctionnelles." },
   },
   tagline: {
-    en: "Seven years turning designs into fast, accessible, carefully-built web interfaces.",
-    fr: "Sept ans à transformer des maquettes en interfaces web rapides, accessibles et soignées.",
+    en: "Freelance front-end developer in Paris. Seven years building pixel-perfect websites and web apps with Vue.js, Nuxt, React and Next.js.",
+    fr: "Développeur front-end freelance à Paris. Sept ans d'expérience à créer des sites et applications web pixel-perfect avec Vue.js, Nuxt, React et Next.js.",
   },
   socials: [
     { label: "GitHub", href: "https://github.com/No1707", icon: "github" },
@@ -78,16 +92,16 @@ export const about = {
   } satisfies I18nString,
   paragraphs: [
     {
-      en: "I'm a French front-end web developer with seven years of experience, four of them building and maintaining production interfaces inside the same company.",
-      fr: "Je suis un développeur web front-end français avec sept ans d'expérience, dont quatre à construire et faire vivre des interfaces en production au sein de la même entreprise.",
+      en: "As a freelance front-end developer in Paris, I help companies, agencies and individuals build and evolve their web interfaces.",
+      fr: "Développeur front-end freelance à Paris, j'accompagne les entreprises, les agences et les particuliers dans la création et l'évolution de leurs interfaces web.",
     },
     {
-      en: "Staying somewhere that long taught me things a series of short projects never could: the weight of the details that separate a good product from an exceptional one, how code written in a hurry costs you six months later, and how much a team gains from clear communication.",
-      fr: "Rester aussi longtemps au même endroit m'a appris ce qu'une série de projets courts n'enseigne pas : l'importance des détails qui séparent un bon produit d'un produit exceptionnel, comment du code écrit dans l'urgence se paie six mois plus tard, et tout ce qu'une équipe gagne avec une communication claire.",
+      en: "Over seven years of development, four of them on a medical application in production, I've learned to build polished interfaces and code that stays easy to evolve. I pay as much attention to visual details as to reliability and clear communication with the team.",
+      fr: "En sept ans de développement, dont quatre sur une application médicale en production, j'ai appris à construire des interfaces soignées et du code qui reste facile à faire évoluer. J'accorde autant d'attention aux détails visuels qu'à la fiabilité et à la clarté de la communication avec l'équipe.",
     },
     {
-      en: "I'm interested in modern, reliable, pixel-perfect user interfaces. Reusable code that holds up over time. And also MMORPGs, tennis and motorcycles.",
-      fr: "Je m'intéresse aux interfaces utilisateur modernes, fiables, pixel-perfect. Au code réutilisable et qui tient dans le temps. Et aussi aux MMORPG, au tennis et à la moto.",
+      en: "I'm interested in modern, reliable, modular, pixel-perfect user interfaces. And also MMORPGs, tennis and motorcycles.",
+      fr: "Je m'intéresse aux interfaces utilisateur modernes, fiables, modulaires et pixel-perfect. Et aussi aux MMORPG, au tennis et à la moto.",
     },
   ] satisfies I18nString[],
 };
@@ -117,8 +131,8 @@ export const experience: ExperienceEntry[] = [
     organisation: "Codoc",
     kind: { en: "Full-time", fr: "CDI" },
     description: {
-      en: "Within a product & tech team, I spent four years working on a medical application used by doctors and researchers from around twenty partner health institutions. The goal is the analysis of patient data to help diagnose rare diseases. There, I built new features, improved and maintained the codebase, modernised the application by moving it from an old version of its technology to the latest one, and evolved the design system. I also had the opportunity to contribute to technical decisions, to improving development practices, and to mentoring interns.",
-      fr: "Au sein d'une équipe produit & tech, j'ai participé pendant quatre ans au développement d'une application médicale utilisée par des médecins et des chercheurs issus d'une vingtaine d'établissements de santé partenaires. L'objectif est l'analyse de données patients afin de contribuer au diagnostic de maladies rares. J'y ai développé de nouvelles fonctionnalités, amélioré et maintenu le code, modernisé l'application en la faisant passer d'une ancienne version de sa technologie à la plus récente et fait évoluer le design system. J'ai également eu l'occasion de contribuer aux choix techniques, à l'amélioration des pratiques de développement et à l'encadrement de stagiaires.",
+      en: "For four years, I built and evolved a medical application used by doctors and researchers from around twenty partner institutions, to help diagnose rare diseases.\nBuilding new features, migrating Vue.js, improving and maintaining the codebase, evolving the design system, writing and maintaining tickets, and mentoring interns.",
+      fr: "Pendant quatre ans, j'ai développé et fait évoluer une application médicale utilisée par des médecins et chercheurs d'une vingtaine d'établissements partenaires, pour aider au diagnostic de maladies rares.\nDéveloppement de nouvelles fonctionnalités, migration de Vue.js, amélioration et maintenance du code, évolution du design system, écriture et maintenance de tickets et encadrement de stagiaires.",
     },
     tech: [
       "vue",

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Geist, Instrument_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
-import { isLocale, locales, t, type Locale } from "@/lib/i18n";
+import { defaultLocale, isLocale, locales, t, type Locale } from "@/lib/i18n";
 import { siteUrl } from "@/lib/site-url";
 import { profile } from "@/content/site";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -28,7 +28,7 @@ export async function generateMetadata({
   params,
 }: LayoutProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
-  const locale: Locale = isLocale(lang) ? lang : "en";
+  const locale: Locale = isLocale(lang) ? lang : defaultLocale;
 
   const title = `${profile.name} — ${t(profile.role, locale)}`;
   const description = t(profile.tagline, locale);

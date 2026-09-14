@@ -81,7 +81,7 @@ export function Experience({ locale }: { locale: Locale }) {
                         <span className="text-faint"> · </span>
                         <span className="text-accent">{entry.organisation}</span>
                       </h3>
-                      <p className="mt-3 max-w-2xl text-muted">
+                      <p className="mt-3 max-w-2xl whitespace-pre-line text-muted">
                         <Description
                           text={t(entry.description, locale)}
                           pointer={entry.pointsTo}

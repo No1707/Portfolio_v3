@@ -18,8 +18,11 @@ function personJsonLd(locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: profile.name,
+    name: `${profile.name} ${profile.lastName}`,
+    givenName: profile.name,
+    familyName: profile.lastName,
     jobTitle: t(profile.role, locale),
+    knowsAbout: profile.expertise,
     description: t(profile.tagline, locale),
     email: `mailto:${profile.email}`,
     url: absolute(`/${locale}`),

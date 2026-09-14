@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { isLocale, locales, t, type Locale } from "@/lib/i18n";
+import { defaultLocale, isLocale, locales, t, type Locale } from "@/lib/i18n";
 import { profile } from "@/content/site";
 
 export function generateStaticParams() {
@@ -9,7 +9,7 @@ export function generateStaticParams() {
 const size = { width: 1200, height: 630 };
 
 export function generateImageMetadata({ params }: { params: { lang: string } }) {
-  const locale: Locale = isLocale(params.lang) ? params.lang : "en";
+  const locale: Locale = isLocale(params.lang) ? params.lang : defaultLocale;
   return [
     {
       id: "card",
@@ -29,7 +29,7 @@ const LINE = "#26262b";
 
 export default async function Image({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const locale: Locale = isLocale(lang) ? lang : "en";
+  const locale: Locale = isLocale(lang) ? lang : defaultLocale;
 
   return new ImageResponse(
     (

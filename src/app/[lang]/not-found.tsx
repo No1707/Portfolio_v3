@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ArrowLeft } from "@phosphor-icons/react";
-import { isLocale, t, type Locale } from "@/lib/i18n";
+import { defaultLocale, isLocale, t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
 
 export default function NotFound() {
   const params = useParams<{ lang: string }>();
   const lang = params?.lang;
-  const locale: Locale = lang && isLocale(lang) ? lang : "en";
+  const locale: Locale = lang && isLocale(lang) ? lang : defaultLocale;
 
   return (
     <main className="relative isolate grid min-h-svh place-items-center overflow-hidden px-5">
