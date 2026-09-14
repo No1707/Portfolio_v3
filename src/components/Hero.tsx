@@ -1,71 +1,20 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type PointerEvent,
-} from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowRight } from "@phosphor-icons/react";
 import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
 import { profile } from "@/content/site";
+import { HEADER_RIPPLES_ID, Ripples, useXrayBoxes, XrayBoxes, type Ripple } from "./Xray";
 
 const GLOW_UP = 16;
 const GLOW_DOWN = 12;
 const GLOW_CYCLE = GLOW_UP + GLOW_DOWN;
 
-type Ripple = { id: number; x: number; y: number };
-type XrayBox = {
-  id: number;
-  tag: string;
-  code: string;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  end: boolean;
-  low: boolean;
-};
-
-function Code({ source }: { source: string }) {
-  return source
-    .split(/(\{[^}]*\}|<[^>]+>)/g)
-    .filter(Boolean)
-    .map((part, index) => (
-      <span
-        key={index}
-        className={
-          part.startsWith("{") ? "text-text" : part.startsWith("<") ? "text-accent" : "text-muted"
-        }
-      >
-        {part}
-      </span>
-    ));
-}
-
-function Ripples({
-  ripples,
-  className = "",
-  onDone,
-}: {
-  ripples: Ripple[];
-  className?: string;
-  onDone?: (id: number) => void;
-}) {
-  return ripples.map((ripple) => (
-    <span
-      key={ripple.id}
-      aria-hidden
-      className={`grid-ripple pointer-events-none absolute inset-0 ${className}`}
-      style={{ "--cx": `${ripple.x}px`, "--cy": `${ripple.y}px` } as CSSProperties}
-      onAnimationEnd={onDone ? () => onDone(ripple.id) : undefined}
-    />
-  ));
-}
+const within = (box: DOMRect, x: number, y: number) =>
+  x >= box.left && x < box.right && y >= box.top && y < box.bottom;
 
 export function Hero({ locale }: { locale: Locale }) {
   const reduceMotion = useReducedMotion();
@@ -73,7 +22,7 @@ export function Hero({ locale }: { locale: Locale }) {
   const spotlight = useRef<HTMLDivElement>(null);
   const rippleId = useRef(0);
   const [ripples, setRipples] = useState<Ripple[]>([]);
-  const [boxes, setBoxes] = useState<XrayBox[]>([]);
+  const { boxes, measure } = useXrayBoxes(section);
 
   const rise = (delay: number) => ({
     initial: reduceMotion ? false : { opacity: 0, y: 24 },
@@ -81,82 +30,96 @@ export function Hero({ locale }: { locale: Locale }) {
     transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] as const },
   });
 
-  const measure = useCallback(() => {
-    const host = section.current;
-    if (!host) return;
-    const origin = host.getBoundingClientRect();
-    setBoxes(
-      [...host.querySelectorAll<HTMLElement>("[data-xray]")]
-        .map((el, id) => {
-          const box = el.getBoundingClientRect();
-          return {
-            id,
-            tag: el.dataset.xray ?? "",
-            code: el.dataset.xrayCode ?? "",
-            x: Math.round(box.left - origin.left),
-            y: Math.round(box.top - origin.top),
-            w: Math.round(box.width),
-            h: Math.round(box.height),
-            end: box.left + box.width / 2 - origin.left > origin.width / 2,
-            low: box.bottom - origin.top + 20 > origin.height,
-          };
-        })
-        .filter((box) => box.w > 0 && box.h > 0),
-    );
-  }, []);
-
   useEffect(() => {
-    const host = section.current;
-    if (!host) return;
-    const settle = window.setTimeout(measure, 1200);
-    const observer = new ResizeObserver(measure);
-    observer.observe(host);
-    document.fonts.ready.then(measure);
-    return () => {
-      window.clearTimeout(settle);
-      observer.disconnect();
+    const hero = section.current;
+    if (!hero) return;
+    let pointer: { x: number; y: number } | null = null;
+    let inside = false;
+
+    const hosts = () => document.querySelectorAll<HTMLElement>(".xray-host");
+
+    const setAll = (key: "pointer" | "hover" | "xray", value: string) =>
+      hosts().forEach((host) => (host.dataset[key] = value));
+
+    const place = (x: number, y: number) => {
+      const heroBox = hero.getBoundingClientRect();
+      hosts().forEach((host) => {
+        const box = host === hero ? heroBox : host.getBoundingClientRect();
+        host.style.setProperty("--mx", `${x - box.left}px`);
+        host.style.setProperty("--my", `${y - box.top}px`);
+        host.style.setProperty("--gy", `${heroBox.top - box.top}px`);
+      });
+      return heroBox;
     };
-  }, [measure]);
 
-  const trackPointer = (event: PointerEvent<HTMLElement>) => {
-    if (event.pointerType !== "mouse") return;
-    const host = event.currentTarget;
-    const box = host.getBoundingClientRect();
-    host.style.setProperty("--mx", `${event.clientX - box.left}px`);
-    host.style.setProperty("--my", `${event.clientY - box.top}px`);
-    host.dataset.pointer = "on";
-    host.dataset.hover = (event.target as Element).closest("a, button") ? "on" : "off";
-    if (spotlight.current) spotlight.current.dataset.active = "true";
-  };
+    const update = (target: Element | null) => {
+      if (!pointer) return;
+      const now = within(place(pointer.x, pointer.y), pointer.x, pointer.y);
+      if (now && !inside) measure.current();
+      inside = now;
+      setAll("pointer", now ? "on" : "off");
+      setAll("hover", now && target?.closest("a, button") ? "on" : "off");
+      if (!now) setAll("xray", "idle");
+      if (spotlight.current) spotlight.current.dataset.active = String(now);
+    };
 
-  const leaveHero = (event: PointerEvent<HTMLElement>) => {
-    event.currentTarget.dataset.pointer = "off";
-    event.currentTarget.dataset.hover = "off";
-    event.currentTarget.dataset.xray = "idle";
-    if (spotlight.current) spotlight.current.dataset.active = "false";
-  };
+    const onMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      pointer = { x: event.clientX, y: event.clientY };
+      update(event.target as Element);
+    };
 
-  const releaseHero = (event: PointerEvent<HTMLElement>) => {
-    event.currentTarget.dataset.xray = "idle";
-  };
+    const onScroll = () => {
+      if (pointer) update(document.elementFromPoint(pointer.x, pointer.y));
+    };
 
-  const pressHero = (event: PointerEvent<HTMLElement>) => {
-    if (event.button !== 0) return;
-    if ((event.target as Element).closest("a, button")) return;
-    if (event.pointerType === "mouse") event.preventDefault();
-    const host = event.currentTarget;
-    const box = host.getBoundingClientRect();
-    const x = event.clientX - box.left;
-    const y = event.clientY - box.top;
-    host.style.setProperty("--mx", `${x}px`);
-    host.style.setProperty("--my", `${y}px`);
-    host.dataset.xray = "expanded";
-    if (reduceMotion) return;
-    setRipples((list) => [...list.slice(-3), { id: ++rippleId.current, x, y }]);
-  };
+    const onOut = (event: PointerEvent) => {
+      if (event.relatedTarget) return;
+      pointer = null;
+      inside = false;
+      setAll("pointer", "off");
+      setAll("hover", "off");
+      setAll("xray", "idle");
+      if (spotlight.current) spotlight.current.dataset.active = "false";
+    };
+
+    const onDown = (event: PointerEvent) => {
+      if (event.button !== 0) return;
+      if ((event.target as Element).closest("a, button")) return;
+      const heroBox = place(event.clientX, event.clientY);
+      if (!within(heroBox, event.clientX, event.clientY)) return;
+      if (event.pointerType === "mouse") event.preventDefault();
+      setAll("xray", "expanded");
+      if (reduceMotion) return;
+      const header = document.getElementById(HEADER_RIPPLES_ID)?.getBoundingClientRect();
+      const x = event.clientX - heroBox.left;
+      const y = event.clientY - heroBox.top;
+      const hy = header ? event.clientY - header.top : y;
+      setRipples((list) => [...list.slice(-3), { id: ++rippleId.current, x, y, hy }]);
+    };
+
+    const onUp = () => setAll("xray", "idle");
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("pointerout", onOut);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("pointerout", onOut);
+    };
+  }, [measure, reduceMotion]);
 
   const removeRipple = (id: number) =>
     setRipples((list) => list.filter((item) => item.id !== id));
+
+  const headerRipples = ripples.length > 0 ? document.getElementById(HEADER_RIPPLES_ID) : null;
 
   return (
     <section
@@ -165,12 +128,6 @@ export function Hero({ locale }: { locale: Locale }) {
       data-pointer="off"
       data-hover="off"
       data-xray="idle"
-      onPointerEnter={measure}
-      onPointerMove={trackPointer}
-      onPointerLeave={leaveHero}
-      onPointerDown={pressHero}
-      onPointerUp={releaseHero}
-      onPointerCancel={releaseHero}
       className="xray-host relative isolate flex min-h-svh items-center overflow-hidden border-b border-line pt-16"
     >
       <div aria-hidden className="grid-backdrop absolute inset-0 -z-10" />
@@ -278,70 +235,14 @@ export function Hero({ locale }: { locale: Locale }) {
       <div aria-hidden className="xray-layer absolute inset-0 z-10 bg-bg">
         <div className="xray-grid absolute inset-0" />
         <Ripples ripples={ripples} />
-        {boxes.map((box, index) => {
-          const previous = boxes[index - 1];
-          const top = previous ? previous.y + previous.h : 0;
-          const gap = box.y - top;
-          const lineX = box.x - 12;
-          const reach = previous ? lineX - (previous.x + previous.w) : 0;
-          return (
-            <div key={box.id}>
-              {previous && gap >= 8 && (
-                <>
-                  {reach > 0 && (
-                    <div
-                      className="absolute h-px border-t border-dashed border-accent/40"
-                      style={{ left: previous.x + previous.w, top, width: reach }}
-                    />
-                  )}
-                  <div
-                    className="absolute w-px bg-accent/50"
-                    style={{ left: lineX, top, height: gap }}
-                  >
-                    <span
-                      className={`tnum absolute top-1/2 -translate-y-1/2 font-mono text-[10px] text-accent ${box.end ? "right-2" : "left-2"}`}
-                    >
-                      {gap}px
-                    </span>
-                  </div>
-                </>
-              )}
-              <div
-                className="absolute rounded-sm border border-dashed border-accent/60"
-                style={{ left: box.x, top: box.y, width: box.w, height: box.h }}
-              >
-                <div
-                  className={`absolute bottom-full mb-1 flex items-center gap-2 ${box.end ? "right-0" : "left-0"}`}
-                >
-                  {box.low && (
-                    <span className="tnum font-mono text-[10px] leading-none text-faint">
-                      {box.w}×{box.h}
-                    </span>
-                  )}
-                  <span className="rounded-sm bg-accent px-1.5 py-0.5 font-mono text-[10px] leading-none whitespace-nowrap text-accent-contrast">
-                    {box.tag}
-                  </span>
-                </div>
-                <code
-                  className={`h-full px-2 font-mono text-[10px] ${
-                    box.h < 28
-                      ? `flex items-center leading-none whitespace-nowrap ${box.end ? "justify-end" : ""}`
-                      : "block overflow-hidden py-1.5 leading-relaxed break-all"
-                  }`}
-                >
-                  <Code source={box.code} />
-                </code>
-                {!box.low && (
-                  <span className="tnum absolute top-full right-0 mt-1 font-mono text-[10px] text-faint">
-                    {box.w}×{box.h}
-                  </span>
-                )}
-              </div>
-            </div>
-          );
-        })}
+        <XrayBoxes boxes={boxes} />
       </div>
       <div aria-hidden className="xray-ring absolute z-10" />
+      {headerRipples &&
+        createPortal(
+          <Ripples ripples={ripples.map((ripple) => ({ ...ripple, y: ripple.hy }))} />,
+          headerRipples,
+        )}
 
       <motion.a
         {...rise(0.8)}

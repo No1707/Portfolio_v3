@@ -180,6 +180,7 @@ body {
     linear-gradient(to right, var(--grid-line-lit) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line-lit) 1px, transparent 1px);
   background-size: 64px 64px;
+  background-position: 0 var(--gy, 0px);
   mask-image:
     radial-gradient(circle at var(--cx) var(--cy), transparent calc(var(--ripple-r) - 80px), #000 var(--ripple-r), transparent calc(var(--ripple-r) + 2px)),
     radial-gradient(circle at var(--cx) var(--cy), transparent calc(var(--ripple-r) * 0.62 - 50px), rgb(0 0 0 / 0.45) calc(var(--ripple-r) * 0.62), transparent calc(var(--ripple-r) * 0.62 + 2px));
@@ -199,7 +200,7 @@ body {
 }
 
 .xray-host[data-hover="on"] {
-  --xray-r: 20px;
+  --xray-r: 0px;
 }
 
 .xray-host[data-xray="expanded"] {
@@ -220,6 +221,10 @@ body {
   opacity: 1;
 }
 
+.xray-host[data-hover="on"]:not([data-xray="expanded"]) .xray-ring {
+  opacity: 0;
+}
+
 .xray-layer {
   mask-image: radial-gradient(
     circle var(--xray-r) at var(--mx, 50%) var(--my, 50%),
@@ -233,6 +238,7 @@ body {
     linear-gradient(to right, color-mix(in oklab, var(--accent) 16%, transparent) 1px, transparent 1px),
     linear-gradient(to bottom, color-mix(in oklab, var(--accent) 16%, transparent) 1px, transparent 1px);
   background-size: 16px 16px;
+  background-position: 0 var(--gy, 0px);
 }
 
 .xray-ring {
@@ -246,6 +252,10 @@ body {
   box-shadow:
     0 0 16px var(--accent-glow),
     inset 0 0 16px var(--accent-glow);
+}
+
+.xray-ring-flat {
+  box-shadow: none;
 }
 
 /* Hero */

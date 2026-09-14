@@ -15,6 +15,9 @@ export function ThemeToggle({ locale }: { locale: Locale }) {
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
       aria-label={label}
       title={label}
+      data-xray="<button>"
+      data-xray-code="{icon}"
+      data-xray-align="center"
       className="grid size-11 cursor-pointer place-items-center rounded-full border border-line text-muted transition-colors duration-200 hover:border-line-strong hover:text-text"
     >
       <Sun size={17} weight="bold" aria-hidden className="hidden dark:block" />

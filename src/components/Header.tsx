@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
 import { ArrowUp, List, X } from "@phosphor-icons/react";
 import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
 import { ThemeToggle } from "./ThemeToggle";
 import { LangToggle } from "./LangToggle";
+import { HEADER_RIPPLES_ID, useXrayBoxes, XrayBoxes } from "./Xray";
 
 const SECTIONS = ["about", "experience", "projects", "stack", "contact"] as const;
 type SectionId = (typeof SECTIONS)[number];
@@ -17,6 +18,8 @@ export function Header({ locale }: { locale: Locale }) {
   const [active, setActive] = useState<SectionId | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const host = useRef<HTMLElement>(null);
+  const { boxes } = useXrayBoxes(host);
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, {
@@ -74,7 +77,13 @@ export function Header({ locale }: { locale: Locale }) {
   }, [menuOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header
+      ref={host}
+      data-pointer="off"
+      data-hover="off"
+      data-xray="idle"
+      className="xray-host fixed inset-x-0 top-0 z-50"
+    >
       <div aria-hidden className="bg-bg">
         <motion.div
           style={{ scaleX: progress }}
@@ -99,6 +108,9 @@ export function Header({ locale }: { locale: Locale }) {
                     <a
                       href={`#${id}`}
                       aria-current={isActive ? "true" : undefined}
+                      data-xray="<a>"
+                      data-xray-code={`#${id}`}
+                      data-xray-align="center"
                       className={`label relative rounded-full px-3 py-2 transition-colors duration-200 ${
                         isActive ? "text-text" : "text-faint hover:text-muted"
                       }`}
@@ -127,12 +139,26 @@ export function Header({ locale }: { locale: Locale }) {
               onClick={() => setMenuOpen(true)}
               aria-label={t(ui.actions.openMenu, locale)}
               aria-expanded={menuOpen}
+              data-xray="<button>"
+              data-xray-code="<List />"
+              data-xray-align="center"
               className="grid size-11 place-items-center rounded-full border border-line text-muted transition-colors duration-200 hover:border-line-strong hover:text-text md:hidden"
             >
               <List size={17} weight="bold" aria-hidden />
             </button>
           </div>
         </div>
+      </div>
+
+      <div aria-hidden className="xray-layer absolute inset-x-0 top-0 -bottom-12 z-10">
+        <div className="absolute inset-x-0 top-0 bottom-12 bg-bg">
+          <div className="xray-grid absolute inset-0" />
+          <div id={HEADER_RIPPLES_ID} className="absolute inset-0 overflow-hidden" />
+        </div>
+        <XrayBoxes boxes={boxes} compact />
+      </div>
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+        <div className="xray-ring xray-ring-flat absolute" />
       </div>
 
       <button
