@@ -18,6 +18,7 @@ type XrayBox = {
   h: number;
   align: XrayAlign;
   low: boolean;
+  lower: boolean;
 };
 
 const ALIGN: Record<XrayAlign, { chip: string; code: string }> = {
@@ -87,6 +88,7 @@ export function useXrayBoxes(host: RefObject<HTMLElement | null>) {
               h: Math.round(box.height),
               align: (el.dataset.xrayAlign as XrayAlign | undefined) ?? auto,
               low: box.bottom - origin.top + 20 > origin.height,
+              lower: el.dataset.xrayRow === "2",
             };
           })
           .filter((box) => box.w > 0 && box.h > 0),
@@ -144,7 +146,7 @@ export function XrayBoxes({ boxes, compact = false }: { boxes: XrayBox[]; compac
           style={{ left: box.x, top: box.y, width: box.w, height: box.h }}
         >
           <div
-            className={`absolute flex items-center gap-2 ${compact ? "top-full mt-[18px]" : "bottom-full mb-1"} ${align.chip}`}
+            className={`absolute flex items-center gap-2 ${compact ? `top-full ${box.lower ? "mt-[36px]" : "mt-[18px]"}` : "bottom-full mb-1"} ${align.chip}`}
           >
             {box.low && !compact && size}
             <span className="rounded-sm bg-accent px-1.5 py-0.5 font-mono text-[10px] leading-none whitespace-nowrap text-accent-contrast">

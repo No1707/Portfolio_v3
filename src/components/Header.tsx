@@ -128,16 +128,17 @@ export function Header({ locale }: { locale: Locale }) {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
           <nav aria-label={t(ui.navigation.primary, locale)}className="hidden md:block">
             <ul className="flex items-center gap-1">
-              {SECTIONS.map((id) => {
+              {SECTIONS.map((id, index) => {
                 const isActive = active === id;
                 return (
                   <li key={id}>
                     <a
                       href={`#${id}`}
                       aria-current={isActive ? "true" : undefined}
-                      data-xray="<a>"
-                      data-xray-code={`#${id}`}
+                      data-xray={`<a href="#${id}">`}
+                      data-xray-code="{label}"
                       data-xray-align="center"
+                      data-xray-row={index % 2 ? "2" : undefined}
                       className={`label relative rounded-full px-3 py-2 transition-colors duration-200 ${
                         isActive ? "text-text" : "text-faint hover:text-muted"
                       }`}
