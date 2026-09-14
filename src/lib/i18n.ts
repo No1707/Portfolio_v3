@@ -13,8 +13,3 @@ export type I18nString = Record<Locale, string>;
 export function t(value: I18nString, locale: Locale): string {
   return value[locale];
 }
-
-export const localeNames: Record<Locale, string> = {
-  en: "English",
-  fr: "Français",
-};

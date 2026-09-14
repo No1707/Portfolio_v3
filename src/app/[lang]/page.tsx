@@ -23,7 +23,7 @@ function personJsonLd(locale: Locale) {
     description: t(profile.tagline, locale),
     email: `mailto:${profile.email}`,
     url: absolute(`/${locale}`),
-    image: absolute(`/${locale}/opengraph-image`),
+    image: absolute("/nolan.jpg"),
     knowsLanguage: ["fr", "en"],
     worksFor: { "@type": "Organization", name: current.organisation },
     alumniOf: {

@@ -1,5 +1,3 @@
-"use client";
-
 import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
 import { profile } from "@/content/site";

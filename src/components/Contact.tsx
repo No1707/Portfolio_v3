@@ -1,17 +1,11 @@
-"use client";
-
-import { ArrowUpRight } from "@phosphor-icons/react";
 import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
-import { profile } from "@/content/site";
 import { Reveal } from "./Reveal";
 import { SocialLinks } from "./SocialLinks";
+import { ContactDialog } from "./ContactDialog";
+import { CopyEmail } from "./CopyEmail";
 
 export function Contact({ locale }: { locale: Locale }) {
-  const mailto = `mailto:${profile.email}?subject=${encodeURIComponent(
-    t(ui.contact.subject, locale),
-  )}`;
-
   return (
     <section
       id="contact"
@@ -41,25 +35,8 @@ export function Contact({ locale }: { locale: Locale }) {
 
         <Reveal delay={150}>
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-5">
-            <a
-              href={mailto}
-              className="group inline-flex h-12 items-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-accent-contrast transition-colors duration-200 hover:bg-accent-hover"
-            >
-              {t(ui.contact.cta, locale)}
-              <ArrowUpRight
-                size={16}
-                weight="bold"
-                aria-hidden
-                className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            </a>
-
-            <a
-              href={mailto}
-              className="text-sm text-muted underline decoration-line underline-offset-4 transition-colors duration-200 hover:text-accent hover:decoration-accent"
-            >
-              {profile.email}
-            </a>
+            <ContactDialog locale={locale} />
+            <CopyEmail locale={locale} />
           </div>
         </Reveal>
 

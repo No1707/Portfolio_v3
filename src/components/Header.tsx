@@ -19,6 +19,8 @@ export function Header({ locale }: { locale: Locale }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const host = useRef<HTMLElement>(null);
+  const menu = useRef<HTMLDivElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const { boxes } = useXrayBoxes(host);
 
   const { scrollYProgress } = useScroll();
@@ -69,11 +71,36 @@ export function Header({ locale }: { locale: Locale }) {
 
   useEffect(() => {
     if (!menuOpen) return;
+    const trigger = menuButton.current;
+
     function onKey(event: KeyboardEvent) {
       if (event.key === "Escape") setMenuOpen(false);
+      const dialog = menu.current;
+      if (event.key !== "Tab" || !dialog) return;
+
+      const items = [...dialog.querySelectorAll<HTMLElement>("a[href], button")];
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (!first || !last) return;
+
+      const current = document.activeElement;
+      if (!dialog.contains(current)) {
+        event.preventDefault();
+        first.focus();
+      } else if (event.shiftKey && current === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && current === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      trigger?.focus();
+    };
   }, [menuOpen]);
 
   return (
@@ -99,7 +126,7 @@ export function Header({ locale }: { locale: Locale }) {
         }`}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
-          <nav aria-label="Primary" className="hidden md:block">
+          <nav aria-label={t(ui.navigation.primary, locale)}className="hidden md:block">
             <ul className="flex items-center gap-1">
               {SECTIONS.map((id) => {
                 const isActive = active === id;
@@ -135,6 +162,7 @@ export function Header({ locale }: { locale: Locale }) {
             <LangToggle locale={locale} />
             <ThemeToggle locale={locale} />
             <button
+              ref={menuButton}
               type="button"
               onClick={() => setMenuOpen(true)}
               aria-label={t(ui.actions.openMenu, locale)}
@@ -178,6 +206,10 @@ export function Header({ locale }: { locale: Locale }) {
         {menuOpen && (
           <motion.div
             key="mobile-menu"
+            ref={menu}
+            role="dialog"
+            aria-modal="true"
+            aria-label={t(ui.navigation.menu, locale)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -196,7 +228,7 @@ export function Header({ locale }: { locale: Locale }) {
               </button>
             </div>
 
-            <nav aria-label="Primary" className="px-5 pt-6">
+            <nav aria-label={t(ui.navigation.primary, locale)}className="px-5 pt-6">
               <ul className="flex flex-col gap-1">
                 {SECTIONS.map((id, index) => (
                   <motion.li

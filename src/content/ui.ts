@@ -9,6 +9,11 @@ export const ui = {
     contact: { en: "Contact", fr: "Contact" },
   } satisfies Record<string, I18nString>,
 
+  navigation: {
+    primary: { en: "Main navigation", fr: "Navigation principale" },
+    menu: { en: "Menu", fr: "Menu" },
+  } satisfies Record<string, I18nString>,
+
   sections: {
     about: { en: "About", fr: "À propos" },
     experience: { en: "Experience", fr: "Parcours" },
@@ -20,7 +25,6 @@ export const ui = {
   actions: {
     viewWork: { en: "See my work", fr: "Voir mes projets" },
     getInTouch: { en: "Get in touch", fr: "Me contacter" },
-    scrollDown: { en: "Scroll to content", fr: "Aller au contenu" },
     skipToContent: { en: "Skip to content", fr: "Aller au contenu principal" },
     openMenu: { en: "Open menu", fr: "Ouvrir le menu" },
     closeMenu: { en: "Close menu", fr: "Fermer le menu" },
@@ -37,6 +41,39 @@ export const ui = {
     headline: { en: "Let's build something", fr: "Construisons quelque chose" },
     cta: { en: "Write to me", fr: "Discutons" },
     subject: { en: "Hello Nolan", fr: "Bonjour Nolan" },
+    copy: { en: "Copy email address", fr: "Copier l'adresse e-mail" },
+    copied: { en: "Email address copied", fr: "Adresse e-mail copiée" },
+  },
+
+  form: {
+    title: { en: "Write to me", fr: "Écrivez-moi" },
+    intro: {
+      en: "Tell me about your project, I'll get back to you quickly.",
+      fr: "Parlez-moi de votre projet, je vous réponds rapidement.",
+    },
+    name: { en: "Name", fr: "Nom" },
+    email: { en: "Email", fr: "E-mail" },
+    message: { en: "Message", fr: "Message" },
+    send: { en: "Send", fr: "Envoyer" },
+    sending: { en: "Sending…", fr: "Envoi…" },
+    sent: {
+      en: "Thanks, your message is on its way. I'll get back to you soon.",
+      fr: "Merci, votre message est bien parti. Je vous réponds très vite.",
+    },
+    error: {
+      en: "Sending failed. Try again or write to me directly at",
+      fr: "L'envoi a échoué. Réessayez ou écrivez-moi directement à",
+    },
+    close: { en: "Close", fr: "Fermer" },
+  },
+
+  notFound: {
+    title: { en: "Page not found", fr: "Page introuvable" },
+    text: {
+      en: "This page doesn't exist or has been moved.",
+      fr: "Cette page n'existe pas ou a été déplacée.",
+    },
+    back: { en: "Back to home", fr: "Retour à l'accueil" },
   },
 
   footer: {

@@ -1,6 +1,4 @@
-"use client";
-
-import { ArrowUpRight } from "@phosphor-icons/react";
+import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
 import { projects } from "@/content/site";

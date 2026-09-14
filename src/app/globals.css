@@ -6,7 +6,6 @@
 :root {
   /* Surfaces */
   --bg: #fbfaf8;
-  --bg-elevated: #ffffff;
   --surface: #ffffff;
   --surface-hover: #f4f2ee;
 
@@ -23,7 +22,6 @@
   --accent: #b45309;
   --accent-hover: #92400e;
   --accent-contrast: #ffffff;
-  --accent-soft: rgb(180 83 9 / 0.1);
   --accent-glow: rgb(180 83 9 / 0.16);
 
   /* Grid */
@@ -35,7 +33,6 @@
 
 .dark {
   --bg: #0a0a0b;
-  --bg-elevated: #131316;
   --surface: #131316;
   --surface-hover: #1a1a1f;
 
@@ -49,7 +46,6 @@
   --accent: #fbbf24;
   --accent-hover: #fcd34d;
   --accent-contrast: #1a1206;
-  --accent-soft: rgb(251 191 36 / 0.12);
   --accent-glow: rgb(251 191 36 / 0.22);
 
   --grid-line: rgb(255 255 255 / 0.07);
@@ -60,7 +56,6 @@
 
 @theme inline {
   --color-bg: var(--bg);
-  --color-bg-elevated: var(--bg-elevated);
   --color-surface: var(--surface);
   --color-surface-hover: var(--surface-hover);
 
@@ -74,7 +69,6 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-contrast: var(--accent-contrast);
-  --color-accent-soft: var(--accent-soft);
 
   --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
   --font-label: var(--font-label-var), ui-sans-serif, system-ui, sans-serif;
@@ -119,10 +113,11 @@ body {
   color: var(--accent-contrast);
 }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 2px;
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
 }
 
 .tnum {

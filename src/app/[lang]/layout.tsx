@@ -71,7 +71,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <noscript>
           <style
             dangerouslySetInnerHTML={{
-              __html: "[data-reveal]{opacity:1;transform:none}",
+              __html:
+                "[data-reveal]{opacity:1;transform:none}[data-rise]{opacity:1!important;transform:none!important}",
             }}
           />
         </noscript>

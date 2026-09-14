@@ -13,11 +13,9 @@ export type TechKey =
   | "vue"
   | "nuxt"
   | "angular"
-  | "pinia"
   | "vuetify"
   | "threejs"
   | "motion"
-  | "i18next"
   | "zod"
   // Styling
   | "tailwind"
@@ -31,16 +29,12 @@ export type TechKey =
   | "shopify"
   // Tooling
   | "git"
-  | "github"
   | "gitlab"
-  | "webstorm"
   | "vite"
-  | "eslint"
   | "cypress"
   | "docker"
   | "supabase"
   | "sanity"
-  | "firebase"
   | "vercel"
   | "notion";
 

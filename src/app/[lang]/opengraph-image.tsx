@@ -6,9 +6,19 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-export const alt = `${profile.name} — ${profile.role.en}`;
+const size = { width: 1200, height: 630 };
+
+export function generateImageMetadata({ params }: { params: { lang: string } }) {
+  const locale: Locale = isLocale(params.lang) ? params.lang : "en";
+  return [
+    {
+      id: "card",
+      alt: `${profile.name} — ${t(profile.role, locale)}`,
+      size,
+      contentType: "image/png",
+    },
+  ];
+}
 
 const INK = "#0a0a0b";
 const AMBER = "#fbbf24";

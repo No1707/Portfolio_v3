@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";

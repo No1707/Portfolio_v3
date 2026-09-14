@@ -25,6 +25,7 @@ export function Hero({ locale }: { locale: Locale }) {
   const { boxes, measure } = useXrayBoxes(section);
 
   const rise = (delay: number) => ({
+    "data-rise": "",
     initial: reduceMotion ? false : { opacity: 0, y: 24 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] as const },
@@ -33,49 +34,24 @@ export function Hero({ locale }: { locale: Locale }) {
   useEffect(() => {
     const hero = section.current;
     if (!hero) return;
+    const hosts = [...document.querySelectorAll<HTMLElement>(".xray-host")];
     let pointer: { x: number; y: number } | null = null;
     let inside = false;
 
-    const hosts = () => document.querySelectorAll<HTMLElement>(".xray-host");
-
     const setAll = (key: "pointer" | "hover" | "xray", value: string) =>
-      hosts().forEach((host) => (host.dataset[key] = value));
+      hosts.forEach((host) => {
+        if (host.dataset[key] !== value) host.dataset[key] = value;
+      });
 
-    const place = (x: number, y: number) => {
-      const heroBox = hero.getBoundingClientRect();
-      hosts().forEach((host) => {
+    const place = (heroBox: DOMRect, x: number, y: number) =>
+      hosts.forEach((host) => {
         const box = host === hero ? heroBox : host.getBoundingClientRect();
         host.style.setProperty("--mx", `${x - box.left}px`);
         host.style.setProperty("--my", `${y - box.top}px`);
         host.style.setProperty("--gy", `${heroBox.top - box.top}px`);
       });
-      return heroBox;
-    };
 
-    const update = (target: Element | null) => {
-      if (!pointer) return;
-      const now = within(place(pointer.x, pointer.y), pointer.x, pointer.y);
-      if (now && !inside) measure.current();
-      inside = now;
-      setAll("pointer", now ? "on" : "off");
-      setAll("hover", now && target?.closest("a, button") ? "on" : "off");
-      if (!now) setAll("xray", "idle");
-      if (spotlight.current) spotlight.current.dataset.active = String(now);
-    };
-
-    const onMove = (event: PointerEvent) => {
-      if (event.pointerType !== "mouse") return;
-      pointer = { x: event.clientX, y: event.clientY };
-      update(event.target as Element);
-    };
-
-    const onScroll = () => {
-      if (pointer) update(document.elementFromPoint(pointer.x, pointer.y));
-    };
-
-    const onOut = (event: PointerEvent) => {
-      if (event.relatedTarget) return;
-      pointer = null;
+    const leave = () => {
       inside = false;
       setAll("pointer", "off");
       setAll("hover", "off");
@@ -83,12 +59,45 @@ export function Hero({ locale }: { locale: Locale }) {
       if (spotlight.current) spotlight.current.dataset.active = "false";
     };
 
+    const update = (target: () => Element | null) => {
+      if (!pointer) return;
+      const heroBox = hero.getBoundingClientRect();
+      if (!within(heroBox, pointer.x, pointer.y)) {
+        if (inside) leave();
+        return;
+      }
+      if (!inside) measure.current();
+      inside = true;
+      place(heroBox, pointer.x, pointer.y);
+      setAll("pointer", "on");
+      setAll("hover", target()?.closest("a, button") ? "on" : "off");
+      if (spotlight.current) spotlight.current.dataset.active = "true";
+    };
+
+    const onMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      pointer = { x: event.clientX, y: event.clientY };
+      update(() => event.target as Element);
+    };
+
+    const onScroll = () => {
+      const at = pointer;
+      if (at) update(() => document.elementFromPoint(at.x, at.y));
+    };
+
+    const onOut = (event: PointerEvent) => {
+      if (event.relatedTarget) return;
+      pointer = null;
+      if (inside) leave();
+    };
+
     const onDown = (event: PointerEvent) => {
-      if (event.button !== 0) return;
-      if ((event.target as Element).closest("a, button")) return;
-      const heroBox = place(event.clientX, event.clientY);
+      if (event.pointerType !== "mouse" || event.button !== 0) return;
+      if ((event.target as Element).closest("a, button, dialog, [role=dialog]")) return;
+      const heroBox = hero.getBoundingClientRect();
       if (!within(heroBox, event.clientX, event.clientY)) return;
-      if (event.pointerType === "mouse") event.preventDefault();
+      event.preventDefault();
+      place(heroBox, event.clientX, event.clientY);
       setAll("xray", "expanded");
       if (reduceMotion) return;
       const header = document.getElementById(HEADER_RIPPLES_ID)?.getBoundingClientRect();
@@ -247,7 +256,6 @@ export function Hero({ locale }: { locale: Locale }) {
       <motion.a
         {...rise(0.8)}
         href="#about"
-        aria-label={t(ui.actions.scrollDown, locale)}
         data-xray={'<a href="#about">'}
         data-xray-code="{t(ui.nav.about)} <ArrowDown />"
         className="absolute right-5 bottom-8 hidden items-center gap-2 text-faint transition-colors duration-200 hover:text-accent sm:right-8 sm:flex"
