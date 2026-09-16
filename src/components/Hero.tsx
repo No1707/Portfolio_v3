@@ -197,10 +197,13 @@ export function Hero({ locale }: { locale: Locale }) {
         <motion.h1
           {...rise(0.36)}
           data-xray="<h1>"
-          data-xray-code={'{profile.name} — <span className="text-accent">{t(profile.role)}</span>'}
+          data-xray-code={'{profile.name} — <span className="text-accent">{t(profile.role)}</span> <span>{t(profile.location)}</span>'}
           className="text-display font-semibold text-balance"
         >
-          {profile.name} — <span className="text-accent">{t(profile.role, locale)}</span>
+          {profile.name} — <span className="text-accent">{t(profile.role, locale)}</span>{" "}
+          <span className="mt-5 block text-lead font-normal tracking-normal text-muted">
+            {t(profile.location, locale)}
+          </span>
         </motion.h1>
 
         <motion.div {...rise(0.62)} className="mt-10 flex flex-wrap items-center gap-3">

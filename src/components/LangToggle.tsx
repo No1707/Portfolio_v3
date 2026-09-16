@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { locales, t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
 
@@ -11,11 +10,10 @@ export function LangToggle({
   locale: Locale;
   paths?: Record<Locale, string>;
 }) {
-  const router = useRouter();
   const other = locales.find((l) => l !== locale) ?? locale;
 
   function switchLanguage() {
-    router.push(paths ? paths[other] : `/${other}${window.location.hash}`);
+    window.location.assign(paths ? paths[other] : `/${other}${window.location.hash}`);
   }
 
   return (

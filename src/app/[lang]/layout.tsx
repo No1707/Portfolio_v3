@@ -30,7 +30,7 @@ export async function generateMetadata({
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : defaultLocale;
 
-  const title = `${t(profile.role, locale)} — ${fullName}`;
+  const title = `${t(profile.role, locale)} ${t(profile.location, locale)} — ${fullName}`;
   const description = t(profile.tagline, locale);
 
   return {

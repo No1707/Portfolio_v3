@@ -21,6 +21,7 @@ function personJsonLd(locale: Locale) {
     givenName: profile.name,
     familyName: profile.lastName,
     jobTitle: t(profile.role, locale),
+    address: { "@type": "PostalAddress", addressLocality: "Paris", addressCountry: "FR" },
     knowsAbout: profile.expertise,
     description: t(profile.tagline, locale),
     email: `mailto:${profile.email}`,
@@ -52,7 +53,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
 
       <a
         href="#main"
-        className="label sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-accent focus:px-4 focus:py-3 focus:text-accent-contrast"
+        className="label sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-[60] focus-visible:rounded-full focus-visible:bg-accent focus-visible:px-4 focus-visible:py-3 focus-visible:text-accent-contrast"
       >
         {t(ui.actions.skipToContent, lang)}
       </a>

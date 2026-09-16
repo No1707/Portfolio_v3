@@ -13,7 +13,7 @@ export function generateImageMetadata({ params }: { params: { lang: string } }) 
   return [
     {
       id: "card",
-      alt: `${fullName} — ${t(profile.role, locale)}`,
+      alt: `${fullName} — ${t(profile.role, locale)} ${t(profile.location, locale)}`,
       size,
       contentType: "image/png",
     },
@@ -67,11 +67,14 @@ export default async function Image({ params }: { params: Promise<{ lang: string
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 62, lineHeight: 1.15, color: TEXT }}>
+          <div style={{ display: "flex", fontSize: 70, lineHeight: 1.15, color: TEXT }}>
             {profile.name} —
           </div>
-          <div style={{ display: "flex", fontSize: 62, lineHeight: 1.15, color: AMBER }}>
+          <div style={{ display: "flex", fontSize: 70, lineHeight: 1.15, color: AMBER }}>
             {t(profile.role, locale)}
+          </div>
+          <div style={{ display: "flex", marginTop: 14, fontSize: 34, color: MUTED }}>
+            {t(profile.location, locale)}
           </div>
         </div>
 

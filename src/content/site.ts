@@ -43,6 +43,7 @@ export interface Profile {
   lastName: string;
   expertise: string[];
   role: I18nString;
+  location: I18nString;
   email: string;
   tagline: I18nString;
   socials: { label: string; href: string; icon: "github" | "linkedin" | "mail" }[];
@@ -63,8 +64,12 @@ export const profile: Profile = {
     "Tailwind CSS",
   ],
   role: {
-    en: "Freelance web developer in Paris",
-    fr: "Développeur web freelance à Paris",
+    en: "Freelance web developer",
+    fr: "Développeur web freelance",
+  },
+  location: {
+    en: "based in Paris",
+    fr: "basé à Paris",
   },
   email: "nolanwebpro@gmail.com",
   tagline: {

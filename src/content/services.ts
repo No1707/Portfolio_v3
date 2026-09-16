@@ -4,10 +4,10 @@ export const services: DetailPage[] = [
   {
     id: "website",
     kind: "service",
-    slug: { en: "services/website-creation", fr: "services/creation-site-web" },
-    name: { en: "Website creation", fr: "Création de site web" },
-    title: { en: "Website creation in Paris", fr: "Création de site web à Paris" },
-    metaTitle: { en: "Custom website creation in Paris", fr: "Création de site web sur mesure à Paris" },
+    slug: { en: "services/website-development", fr: "services/creation-site-web" },
+    name: { en: "Website development", fr: "Création de site web" },
+    title: { en: "Website development in Paris", fr: "Création de site web à Paris" },
+    metaTitle: { en: "Custom website development in Paris", fr: "Création de site web sur mesure à Paris" },
     description: {
       en: "Freelance web developer in Paris: I build showcase websites, online stores and custom web apps with Vue.js, Nuxt, React or Next.js that are fast, responsive and search-engine friendly.",
       fr: "Développeur web freelance à Paris, je crée des sites vitrines, sites e-commerce et applications web sur mesure en Vue.js, Nuxt, React ou Next.js : rapides, responsive et bien référencés.",
