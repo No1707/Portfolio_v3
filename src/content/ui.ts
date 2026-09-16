@@ -2,7 +2,9 @@ import type { I18nString } from "@/lib/i18n";
 
 export const ui = {
   nav: {
+    home: { en: "Home", fr: "Accueil" },
     about: { en: "About", fr: "À propos" },
+    services: { en: "Services", fr: "Services" },
     experience: { en: "Experience", fr: "Parcours" },
     projects: { en: "Projects", fr: "Projets" },
     stack: { en: "Stack", fr: "Stack" },
@@ -12,15 +14,39 @@ export const ui = {
   navigation: {
     primary: { en: "Main navigation", fr: "Navigation principale" },
     menu: { en: "Menu", fr: "Menu" },
+    expertise: { en: "{name} expertise", fr: "Expertise {name}" },
   } satisfies Record<string, I18nString>,
 
   sections: {
     about: { en: "About", fr: "À propos" },
+    services: { en: "Services", fr: "Services" },
     experience: { en: "Experience", fr: "Parcours" },
     projects: { en: "Projects", fr: "Projets" },
     stack: { en: "Technologies", fr: "Technologies" },
     contact: { en: "Contact", fr: "Contact" },
+    expertise: { en: "Expertise", fr: "Expertises" },
   } satisfies Record<string, I18nString>,
+
+  services: {
+    more: { en: "Learn more", fr: "En savoir plus" },
+    carousel: { en: "Services offered", fr: "Services proposés" },
+    previous: { en: "Previous service", fr: "Service précédent" },
+    next: { en: "Next service", fr: "Service suivant" },
+    goTo: { en: "Show service", fr: "Afficher le service" },
+  },
+
+  projectCard: {
+    visit: { en: "Visit the website", fr: "Voir le site" },
+    screenshot: { en: "Homepage of", fr: "Page d'accueil de" },
+  },
+
+  detail: {
+    home: { en: "Home", fr: "Accueil" },
+    breadcrumb: { en: "Breadcrumb", fr: "Fil d'Ariane" },
+    service: { en: "Service", fr: "Service" },
+    expertise: { en: "Expertise", fr: "Expertise" },
+    related: { en: "See also", fr: "À voir aussi" },
+  },
 
   actions: {
     viewWork: { en: "See my work", fr: "Voir mes projets" },

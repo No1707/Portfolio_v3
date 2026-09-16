@@ -18,33 +18,37 @@ export function Contact({ locale }: { locale: Locale }) {
         style={{ background: "var(--accent-glow)" }}
       />
 
-      <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
+      <div className="mx-auto max-w-6xl px-5 py-15 sm:px-8 sm:py-22.5">
         <Reveal>
           <div className="flex items-center gap-4">
-            <span className="label text-faint">{t(ui.sections.contact, locale)}</span>
+            <h2 id="contact-title" className="text-h2 font-semibold">
+              {t(ui.sections.contact, locale)}
+            </h2>
             <span aria-hidden className="h-px flex-1 bg-line" />
           </div>
         </Reveal>
 
-        <Reveal delay={80}>
-          <h2 id="contact-title" className="mt-10 max-w-3xl text-display font-semibold text-balance">
-            {t(ui.contact.headline, locale)}
-            <span className="text-accent">.</span>
-          </h2>
-        </Reveal>
+        <div className="mt-12 sm:mt-16">
+          <Reveal delay={80}>
+            <p className="max-w-3xl text-display font-semibold text-balance">
+              {t(ui.contact.headline, locale)}
+              <span className="text-accent">.</span>
+            </p>
+          </Reveal>
 
-        <Reveal delay={150}>
-          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-5">
-            <ContactDialog locale={locale} />
-            <CopyEmail locale={locale} />
-          </div>
-        </Reveal>
+          <Reveal delay={150}>
+            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-5">
+              <ContactDialog locale={locale} />
+              <CopyEmail locale={locale} />
+            </div>
+          </Reveal>
 
-        <Reveal delay={220}>
-          <div className="mt-10">
-            <SocialLinks size={20} />
-          </div>
-        </Reveal>
+          <Reveal delay={220}>
+            <div className="mt-10">
+              <SocialLinks size={20} />
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

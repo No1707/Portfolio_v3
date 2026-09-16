@@ -1,63 +1,84 @@
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
-import { projects } from "@/content/site";
+import { projects } from "@/content/projects";
 import { Section } from "./Section";
 import { Reveal } from "./Reveal";
 import { TechChips } from "./TechChips";
+import { BrowserFrame } from "./BrowserFrame";
 
 export function Projects({ locale }: { locale: Locale }) {
   return (
     <Section id="projects" title={t(ui.sections.projects, locale)}>
-      <ul className="grid gap-4 md:grid-cols-2">
+      <ol className="border-t border-line">
         {projects.map((project, index) => {
-          const primaryHref = project.links.live;
+          const flipped = index % 2 === 1;
 
           return (
-            <li key={project.title}>
-              <Reveal delay={(index % 2) * 70 + Math.floor(index / 2) * 60}>
-                <article className="group relative flex h-full flex-col rounded-2xl border border-line bg-surface/40 p-6 transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:bg-surface sm:p-7">
-                  <div className="flex items-center justify-between">
-                    <span className="label tnum text-accent">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="label tnum text-faint">{project.year}</span>
-                  </div>
+            <li key={project.id} className="border-b border-line">
+              <Reveal delay={index * 80}>
+                <article className="group relative">
+                  <span
+                    aria-hidden
+                    className="absolute inset-y-0 left-0 w-px origin-top scale-y-0 bg-accent transition-transform duration-500 ease-out group-hover:scale-y-100"
+                  />
 
-                  <h3 className="mt-5 text-h3 font-medium">
-                    {primaryHref ? (
-                      <a
-                        href={primaryHref}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="inline-flex items-start gap-1.5 transition-colors duration-200 hover:text-accent"
+                  <div className="grid items-center gap-8 py-10 transition-colors duration-300 group-hover:bg-surface/50 sm:py-12 md:px-5 lg:grid-cols-2 lg:gap-14 lg:px-8">
+                    <div className={flipped ? "lg:order-2" : undefined}>
+                      <p className="label flex items-center gap-3 text-faint">
+                        <span>{t(project.category, locale)}</span>
+                        <span aria-hidden>·</span>
+                        <span className="tnum">{project.year}</span>
+                      </p>
+
+                      <h3 className="mt-5 text-h2 font-semibold">
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="after:absolute after:inset-0"
+                        >
+                          {project.name}
+                        </a>
+                      </h3>
+
+                      <p className="mt-4 max-w-md text-lead text-muted">
+                        {t(project.summary, locale)}
+                      </p>
+
+                      <div className="relative z-10 mt-6">
+                        <TechChips items={project.tech} />
+                      </div>
+
+                      <span
+                        aria-hidden
+                        className="label mt-8 inline-flex items-center gap-2 text-faint transition-colors duration-200 group-hover:text-accent"
                       >
-                        {project.title}
+                        {t(ui.projectCard.visit, locale)}
                         <ArrowUpRight
-                          size={17}
+                          size={12}
                           weight="bold"
-                          aria-hidden
-                          className="mt-1 shrink-0 text-faint transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
+                          className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                         />
-                      </a>
-                    ) : (
-                      project.title
-                    )}
-                  </h3>
+                      </span>
+                    </div>
 
-                  <p className="label mt-2 text-faint">{t(project.summary, locale)}</p>
-
-                  <p className="mt-4 flex-1 text-muted">{t(project.description, locale)}</p>
-
-                  <div className="mt-6">
-                    <TechChips items={project.tech} />
+                    <div className={`pointer-events-none ${flipped ? "lg:order-1" : ""}`}>
+                      <BrowserFrame
+                        src={project.image}
+                        alt={`${t(ui.projectCard.screenshot, locale)} ${project.name}`}
+                        label={project.handle}
+                        sizes="(min-width: 1024px) 34rem, (min-width: 640px) 90vw, 100vw"
+                        className="transition-colors duration-300 group-hover:border-line-strong"
+                      />
+                    </div>
                   </div>
                 </article>
               </Reveal>
             </li>
           );
         })}
-      </ul>
+      </ol>
     </Section>
   );
 }

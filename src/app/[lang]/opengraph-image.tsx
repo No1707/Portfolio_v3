@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { defaultLocale, isLocale, locales, t, type Locale } from "@/lib/i18n";
-import { profile } from "@/content/site";
+import { fullName, profile } from "@/content/site";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -13,7 +13,7 @@ export function generateImageMetadata({ params }: { params: { lang: string } }) 
   return [
     {
       id: "card",
-      alt: `${profile.name} — ${t(profile.role, locale)}`,
+      alt: `${fullName} — ${t(profile.role, locale)}`,
       size,
       contentType: "image/png",
     },
@@ -62,16 +62,16 @@ export default async function Image({ params }: { params: Promise<{ lang: string
             N
           </div>
           <div style={{ display: "flex", fontSize: 25, letterSpacing: 3, color: MUTED }}>
-            {profile.name.toUpperCase()} · {t(profile.role, locale).toUpperCase()}
+            VUE.JS · NUXT · REACT · NEXT.JS
           </div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 74, lineHeight: 1.15, color: TEXT }}>
-            {t(profile.headline.lead, locale)}
+          <div style={{ display: "flex", fontSize: 62, lineHeight: 1.15, color: TEXT }}>
+            {profile.name} —
           </div>
-          <div style={{ display: "flex", fontSize: 74, lineHeight: 1.15, color: AMBER }}>
-            {t(profile.headline.accent, locale)}
+          <div style={{ display: "flex", fontSize: 62, lineHeight: 1.15, color: AMBER }}>
+            {t(profile.role, locale)}
           </div>
         </div>
 

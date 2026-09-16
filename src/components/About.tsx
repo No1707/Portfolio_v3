@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { t, type Locale } from "@/lib/i18n";
 import { ui } from "@/content/ui";
 import { about } from "@/content/site";
+import { expertise, pageHref } from "@/content/pages";
 import { Section } from "./Section";
 import { Reveal } from "./Reveal";
 
@@ -33,6 +35,34 @@ export function About({ locale }: { locale: Locale }) {
               </Reveal>
             ))}
           </div>
+
+          <Reveal delay={60 + about.paragraphs.length * 70}>
+            <div className="mt-10">
+              <p className="label text-accent">{t(ui.sections.expertise, locale)}</p>
+              <ul className="mt-5 flex flex-col gap-6 sm:flex-row sm:gap-14">
+                {expertise.map((page) => {
+                  const name = t(page.name, locale);
+                  const keyword = page.keyword ?? name;
+                  const [before = "", after = ""] = name.split(keyword);
+
+                  return (
+                    <li key={page.id}>
+                      <Link
+                        href={pageHref(page, locale)}
+                        className="flex cursor-default flex-wrap items-baseline gap-x-1.5"
+                      >
+                        <span className="label order-1 text-faint">{before.trim()}</span>{" "}
+                        <span className="order-3 mt-2 basis-full text-h2 font-semibold">
+                          {keyword}
+                        </span>{" "}
+                        <span className="label order-2 text-faint">{after.trim()}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </Reveal>
         </div>
       </div>
     </Section>

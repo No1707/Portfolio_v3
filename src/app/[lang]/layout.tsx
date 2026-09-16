@@ -5,7 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 import { defaultLocale, isLocale, locales, t, type Locale } from "@/lib/i18n";
 import { siteUrl } from "@/lib/site-url";
-import { profile } from "@/content/site";
+import { fullName, profile } from "@/content/site";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 const sans = Instrument_Sans({
@@ -30,12 +30,12 @@ export async function generateMetadata({
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : defaultLocale;
 
-  const title = `${profile.name} — ${t(profile.role, locale)}`;
+  const title = `${t(profile.role, locale)} — ${fullName}`;
   const description = t(profile.tagline, locale);
 
   return {
     metadataBase: siteUrl,
-    title: { default: title, template: `%s · ${profile.name}` },
+    title: { default: title, template: `%s · ${fullName}` },
     description,
     alternates: {
       canonical: `/${locale}`,
@@ -51,7 +51,7 @@ export async function generateMetadata({
       url: `/${locale}`,
       title,
       description,
-      siteName: profile.name,
+      siteName: fullName,
     },
     twitter: { card: "summary_large_image", title, description },
   };

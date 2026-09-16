@@ -44,7 +44,6 @@ export interface Profile {
   expertise: string[];
   role: I18nString;
   email: string;
-  headline: { lead: I18nString; accent: I18nString };
   tagline: I18nString;
   socials: { label: string; href: string; icon: "github" | "linkedin" | "mail" }[];
 }
@@ -64,17 +63,13 @@ export const profile: Profile = {
     "Tailwind CSS",
   ],
   role: {
-    en: "Freelance front-end developer",
-    fr: "Développeur front-end freelance",
+    en: "Freelance web developer in Paris",
+    fr: "Développeur web freelance à Paris",
   },
   email: "nolanwebpro@gmail.com",
-  headline: {
-    lead: { en: "Turning your ideas into", fr: "Transformer vos idées en" },
-    accent: { en: "functional interfaces.", fr: "interfaces fonctionnelles." },
-  },
   tagline: {
-    en: "Freelance front-end developer in Paris. Seven years building pixel-perfect websites and web apps with Vue.js, Nuxt, React and Next.js.",
-    fr: "Développeur front-end freelance à Paris. Sept ans d'expérience à créer des sites et applications web pixel-perfect avec Vue.js, Nuxt, React et Next.js.",
+    en: "Freelance web developer in Paris specialising in Vue.js and React. Seven years building fast, pixel-perfect custom websites and web apps.",
+    fr: "Développeur web freelance à Paris, spécialisé en Vue.js et React. Sept ans d'expérience à créer des sites et applications web sur mesure, rapides et pixel-perfect.",
   },
   socials: [
     { label: "GitHub", href: "https://github.com/No1707", icon: "github" },
@@ -82,6 +77,8 @@ export const profile: Profile = {
     { label: "Email", href: "mailto:nolanwebpro@gmail.com", icon: "mail" },
   ],
 };
+
+export const fullName = `${profile.name} ${profile.lastName}`;
 
 /* About */
 
@@ -92,8 +89,8 @@ export const about = {
   } satisfies I18nString,
   paragraphs: [
     {
-      en: "As a freelance front-end developer in Paris, I help companies, agencies and individuals build and evolve their web interfaces.",
-      fr: "Développeur front-end freelance à Paris, j'accompagne les entreprises, les agences et les particuliers dans la création et l'évolution de leurs interfaces web.",
+      en: "As a freelance web developer in Paris, I help companies, agencies and individuals build and evolve their web interfaces.",
+      fr: "Développeur web freelance à Paris, j'accompagne les entreprises, les agences et les particuliers dans la création et l'évolution de leurs interfaces web.",
     },
     {
       en: "Over seven years of development, four of them on a medical application in production, I've learned to build polished interfaces and code that stays easy to evolve. I pay as much attention to visual details as to reliability and clear communication with the team.",
@@ -176,86 +173,6 @@ export const experience: ExperienceEntry[] = [
         fr: "Mettre en évidence l'alternance chez Kawalearn, ci-dessus",
       },
     },
-  },
-];
-
-/* Projects */
-
-export interface Project {
-  title: string;
-  summary: I18nString;
-  description: I18nString;
-  year: string;
-  tech: TechKey[];
-  links: { live?: string };
-}
-
-export const projects: Project[] = [
-  {
-    title: "TheVirtuose",
-    summary: { en: "Website", fr: "Site web" },
-    description: {
-      en: "A showcase site for a video editing studio.",
-      fr: "Une vitrine pour un studio de montage vidéo.",
-    },
-    year: "2026",
-    tech: ["nextjs", "react", "typescript", "sanity", "motion", "styledcomponents"],
-    links: { live: "https://the-virtuose-rho.vercel.app/en" },
-  },
-  {
-    title: "FitForge",
-    summary: { en: "Web app", fr: "Application web" },
-    description: {
-      en: "A training app with AI-assisted workout program generation.",
-      fr: "Une application de training avec génération de programmes de sport assistée par IA.",
-    },
-    year: "2026",
-    tech: ["nuxt", "vue", "typescript", "tailwind", "supabase", "zod"],
-    links: { live: "https://fit-forge-five.vercel.app/" },
-  },
-  {
-    title: "Codoc",
-    summary: { en: "Website", fr: "Site web" },
-    description: {
-      en: "My company's public website.",
-      fr: "Le site public de mon entreprise.",
-    },
-    year: "2025",
-    tech: ["webflow", "html", "css", "javascript"],
-    links: { live: "https://codoc.co" },
-  },
-  {
-    title: "Crypto Dashboard",
-    summary: { en: "Web app", fr: "Application web" },
-    description: {
-      en: "A cryptocurrency dashboard tracking prices and market movement.",
-      fr: "Un dashboard de cryptomonnaies suivant les cours et les mouvements du marché.",
-    },
-    year: "2022",
-    tech: ["vue", "tailwind", "javascript"],
-    links: { live: "https://crypto-dashboard-two-lovat.vercel.app/" },
-  },
-  {
-    title: "MacroNutrients",
-    summary: { en: "Web app", fr: "Application web" },
-    description: {
-      en: "A calculator that works out daily macronutrient needs from a few personal inputs.",
-      fr: "Un calculateur qui détermine les besoins quotidiens en macronutriments à partir de quelques données personnelles.",
-    },
-    year: "2022",
-    tech: ["angular", "typescript", "html", "css"],
-    links: { live: "https://macronutrients-needs.vercel.app/" },
-  },
-  {
-    title: "Lab — The Strokes",
-    summary: { en: "Website", fr: "Site web" },
-    description: {
-      en: "My final school project: a band tribute site written in plain HTML, CSS and JavaScript.",
-      fr: "Mon dernier projet d'école : un site hommage à un groupe, écrit en HTML, CSS et JavaScript purs.",
-    },
-    year: "2021",
-    tech: ["html", "css", "javascript"],
-    links: { live: "https://lab-the-strokes.vercel.app/index.html" },
   },
 ];
 

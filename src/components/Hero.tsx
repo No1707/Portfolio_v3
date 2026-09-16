@@ -70,7 +70,7 @@ export function Hero({ locale }: { locale: Locale }) {
       inside = true;
       place(heroBox, pointer.x, pointer.y);
       setAll("pointer", "on");
-      setAll("hover", target()?.closest("a, button") ? "on" : "off");
+      setAll("hover", target()?.closest("a, button, [data-menu]") ? "on" : "off");
       if (spotlight.current) spotlight.current.dataset.active = "true";
     };
 
@@ -93,7 +93,7 @@ export function Hero({ locale }: { locale: Locale }) {
 
     const onDown = (event: PointerEvent) => {
       if (event.pointerType !== "mouse" || event.button !== 0) return;
-      if ((event.target as Element).closest("a, button, dialog, [role=dialog]")) return;
+      if ((event.target as Element).closest("a, button, dialog, [role=dialog], [data-menu]")) return;
       const heroBox = hero.getBoundingClientRect();
       if (!within(heroBox, event.clientX, event.clientY)) return;
       event.preventDefault();
@@ -194,26 +194,14 @@ export function Hero({ locale }: { locale: Locale }) {
       />
 
       <div className="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8">
-        <h1>
-          <motion.span
-            {...rise(0.36)}
-            data-xray="<span.label>"
-            data-xray-code="{profile.name} — {t(profile.role)}"
-            className="label block text-faint"
-          >
-            {profile.name} — {t(profile.role, locale)}
-          </motion.span>
-
-          <motion.span
-            {...rise(0.42)}
-            data-xray="<h1>"
-            data-xray-code={'{t(headline.lead)} <span className="text-accent">{t(headline.accent)}</span>'}
-            className="mt-5 block text-display font-semibold text-balance"
-          >
-            {t(profile.headline.lead, locale)}{" "}
-            <span className="text-accent">{t(profile.headline.accent, locale)}</span>
-          </motion.span>
-        </h1>
+        <motion.h1
+          {...rise(0.36)}
+          data-xray="<h1>"
+          data-xray-code={'{profile.name} — <span className="text-accent">{t(profile.role)}</span>'}
+          className="text-display font-semibold text-balance"
+        >
+          {profile.name} — <span className="text-accent">{t(profile.role, locale)}</span>
+        </motion.h1>
 
         <motion.div {...rise(0.62)} className="mt-10 flex flex-wrap items-center gap-3">
           <a

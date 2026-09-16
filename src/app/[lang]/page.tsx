@@ -2,23 +2,22 @@ import { notFound } from "next/navigation";
 import { isLocale, t, type Locale } from "@/lib/i18n";
 import { absolute } from "@/lib/site-url";
 import { ui } from "@/content/ui";
-import { experience, profile } from "@/content/site";
+import { buildMenu } from "@/content/nav";
+import { experience, fullName, profile } from "@/content/site";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
-import { Experience } from "@/components/Experience";
+import { Services } from "@/components/Services";
 import { Projects } from "@/components/Projects";
 import { TechMarquee } from "@/components/TechMarquee";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 
 function personJsonLd(locale: Locale) {
-  const current = experience[0];
-
   return {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: `${profile.name} ${profile.lastName}`,
+    name: fullName,
     givenName: profile.name,
     familyName: profile.lastName,
     jobTitle: t(profile.role, locale),
@@ -28,7 +27,6 @@ function personJsonLd(locale: Locale) {
     url: absolute(`/${locale}`),
     image: absolute("/nolan.jpg"),
     knowsLanguage: ["fr", "en"],
-    worksFor: { "@type": "Organization", name: current.organisation },
     alumniOf: {
       "@type": "EducationalOrganization",
       name: experience[experience.length - 1].organisation,
@@ -59,12 +57,12 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         {t(ui.actions.skipToContent, lang)}
       </a>
 
-      <Header locale={lang} />
+      <Header locale={lang} menu={buildMenu(lang)} />
 
       <main id="main">
         <Hero locale={lang} />
         <About locale={lang} />
-        <Experience locale={lang} />
+        <Services locale={lang} />
         <Projects locale={lang} />
         <TechMarquee locale={lang} />
         <Contact locale={lang} />
