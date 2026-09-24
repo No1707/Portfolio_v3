@@ -57,6 +57,8 @@ export const ui = {
     toggleTheme: { en: "Switch theme", fr: "Changer de thème" },
     switchLanguage: { en: "Switch to French", fr: "Passer en anglais" },
     backToTop: { en: "Back to top", fr: "Retour en haut" },
+    resume: { en: "Resume", fr: "CV" },
+    openResume: { en: "Open my resume (PDF)", fr: "Ouvrir mon CV (PDF)" },
   } satisfies Record<string, I18nString>,
 
   about: {

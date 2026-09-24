@@ -15,6 +15,8 @@ const SECTIONS = ["about", "services", "projects", "stack", "contact"] as const;
 
 const SPY_OFFSET = 96;
 
+const RESUME = "/CV_Nolan_Boisel.pdf";
+
 export function Header({
   locale,
   menu,
@@ -222,6 +224,18 @@ export function Header({
           </nav>
 
           <div className="ml-auto flex items-center gap-2">
+            <a
+              href={RESUME}
+              target="_blank"
+              rel="noreferrer noopener"
+              title={t(ui.actions.openResume, locale)}
+              data-xray="<a>"
+              data-xray-code="{CV}"
+              data-xray-align="center"
+              className="label flex h-11 items-center rounded-full border border-line px-3.5 text-muted transition-colors duration-200 hover:border-line-strong hover:text-text"
+            >
+              {t(ui.actions.resume, locale)}
+            </a>
             <LangToggle locale={locale} paths={paths} />
             <ThemeToggle locale={locale} />
             <button
@@ -331,6 +345,25 @@ export function Header({
                     )}
                   </motion.li>
                 ))}
+                <motion.li
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.04 * menu.length + 0.05, duration: 0.3, ease: "easeOut" }}
+                  className="border-b border-line"
+                >
+                  <a
+                    href={RESUME}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-baseline gap-4 py-4 text-h3 text-text"
+                  >
+                    <span className="label text-faint">
+                      {String(menu.length + 1).padStart(2, "0")}
+                    </span>
+                    {t(ui.actions.resume, locale)}
+                  </a>
+                </motion.li>
               </ul>
             </nav>
           </motion.div>
